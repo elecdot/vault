@@ -1,0 +1,13 @@
+{
+  "theme": "system",
+  "accentColor": "",
+  "baseFontSize": 18,
+  "nativeMenus": false,
+  "cssTheme": "Minimal",
+  "baseFontSizeAction": false,
+  "textFontFamily": "Karla,Lora,Inter",
+  "showRibbon": false,
+  "showViewHeader": false,
+  "monospaceFontFamily": "JetBrains Mono,JetBrains Mono NL,Cascadia Code NF",
+  "interfaceFontFamily": "Inter"
+}

@@ -1,0 +1,6 @@
+{
+  "folder": "workspace",
+  "autorun": false,
+  "format": "YYYY-MM-DD",
+  "template": "templates/zettel"
+}

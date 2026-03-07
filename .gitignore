@@ -1,0 +1,38 @@
+### Obsidian Vault ###
+# runtime state
+.obsidian/workspace*.json
+.obsidian/cache/
+.obsidian/plugins/*/cache/
+
+# plugin secrets
+.obsidian/plugins/*/data.json
+
+# Obsidian trash folder
+.trash/
+
+# Large binary files
+*.pdf
+*.epub
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.zip
+*.tar
+*.gz
+*.7z
+*.iso
+*.mp3
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.exe
+
+### OS
+# Windows
+Thumbs.db
+.DS_Store
+desktop.ini
