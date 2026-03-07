@@ -5,190 +5,43 @@ description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, 
 
 # Obsidian Flavored Markdown Skill
 
-Create and edit valid Obsidian Flavored Markdown. Obsidian extends CommonMark and GFM with wikilinks, embeds, callouts, properties, comments, and other syntax. This skill covers only Obsidian-specific extensions -- standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) is assumed knowledge.
+Create and edit valid Obsidian Flavored Markdown for this vault. Use this skill when the task is about note creation, metadata cleanup, wikilinks, embeds, callouts, tags, note cleanup, or note restructuring.
 
-## Workflow: Creating an Obsidian Note
+This skill keeps task rules and vault-specific conventions in the main body. Syntax tables and longer examples live in `references/`.
 
-1. **Add frontmatter** with properties (title, tags, aliases) at the top of the file. See [PROPERTIES.md](references/PROPERTIES.md) for all property types.
-2. **Write content** using standard Markdown for structure, plus Obsidian-specific syntax below.
-3. **Link related notes** using wikilinks (`[[Note]]`) for internal vault connections, or standard Markdown links for external URLs.
-4. **Embed content** from other notes, images, or PDFs using the `![[embed]]` syntax. See [EMBEDS.md](references/EMBEDS.md) for all embed types.
-5. **Add callouts** for highlighted information using `> [!type]` syntax. See [CALLOUTS.md](references/CALLOUTS.md) for all callout types.
-6. **Verify** the note renders correctly in Obsidian's reading view.
+## Workflow: Creating or Editing an Obsidian Note
+
+1. **Inspect the note context**: identify the note type, intended folder, nearby linked notes, and whether a template already exists for this kind of note.
+2. **look for relevant templates**: if a template exists for this note type, use it as the starting point. If not, create a new note following the vault's naming and folder rules.
+2. **Add or update frontmatter**: prefer the vault's minimal property set. See [PROPERTIES.md](references/PROPERTIES.md) for property syntax details.
+3. **Preserve prose**: make minimal edits; do not rewrite prose just to normalize style.
+4. **Add semantic connections**: use wikilinks for internal notes (a unresolved link is allowed for future reference), Markdown links for external URLs, and add tags only when they improve retrieval.
+5. **Use Obsidian features only when they serve the note**: embeds, callouts, comments, highlights, math, Mermaid, and footnotes are available but should not be added mechanically.
+6. **Validate before finishing**: check YAML validity, wikilinks, embeds, callouts, and whether the note now follows the vault conventions below.
 
 > When choosing between wikilinks and Markdown links: use `[[wikilinks]]` for notes within the vault (Obsidian tracks renames automatically) and `[text](url)` for external URLs only.
 
-## Internal Links (Wikilinks)
+## Vault Policy
 
-```markdown
-[[Note Name]]                          Link to note
-[[Note Name|Display Text]]             Custom display text
-[[Note Name#Heading]]                  Link to heading
-[[Note Name#^block-id]]                Link to block
-[[#Heading in same note]]              Same-note heading link
-```
+- Follow the vault-wide naming, metadata, tag, linking, and template rules defined in `AGENTS.md`.
+- Use this skill to apply those rules while editing notes; do not redefine them here.
 
-Define a block ID by appending `^block-id` to any paragraph:
+## Validation Checklist
 
-```markdown
-This paragraph can be linked to. ^my-block-id
-```
-
-For lists and quotes, place the block ID on a separate line after the block:
-
-```markdown
-> A quote block
-
-^quote-id
-```
-
-## Embeds
-
-Prefix any wikilink with `!` to embed its content inline:
-
-```markdown
-![[Note Name]]                         Embed full note
-![[Note Name#Heading]]                 Embed section
-![[image.png]]                         Embed image
-![[image.png|300]]                     Embed image with width
-![[document.pdf#page=3]]               Embed PDF page
-```
-
-See [EMBEDS.md](references/EMBEDS.md) for audio, video, search embeds, and external images.
-
-## Callouts
-
-```markdown
-> [!note]
-> Basic callout.
-
-> [!warning] Custom Title
-> Callout with a custom title.
-
-> [!faq]- Collapsed by default
-> Foldable callout (- collapsed, + expanded).
-```
-
-Common types: `note`, `tip`, `warning`, `info`, `example`, `quote`, `bug`, `danger`, `success`, `failure`, `question`, `abstract`, `todo`.
-
-See [CALLOUTS.md](references/CALLOUTS.md) for the full list with aliases, nesting, and custom CSS callouts.
-
-## Properties (Frontmatter)
-
-```yaml
----
-title: My Note
-date: 2024-01-15
-tags:
-  - project
-  - active
-aliases:
-  - Alternative Name
-cssclasses:
-  - custom-class
----
-```
-
-Default properties: `tags` (searchable labels), `aliases` (alternative note names for link suggestions), `cssclasses` (CSS classes for styling).
-
-See [PROPERTIES.md](references/PROPERTIES.md) for all property types, tag syntax rules, and advanced usage.
-
-## Tags
-
-```markdown
-#tag                    Inline tag
-#nested/tag             Nested tag with hierarchy
-```
-
-Tags can contain letters, numbers (not first character), underscores, hyphens, and forward slashes. Tags can also be defined in frontmatter under the `tags` property.
-
-## Comments
-
-```markdown
-This is visible %%but this is hidden%% text.
-
-%%
-This entire block is hidden in reading view.
-%%
-```
-
-## Obsidian-Specific Formatting
-
-```markdown
-==Highlighted text==                   Highlight syntax
-```
-
-## Math (LaTeX)
-
-```markdown
-Inline: $e^{i\pi} + 1 = 0$
-
-Block:
-$$
-\frac{a}{b} = c
-$$
-```
-
-## Diagrams (Mermaid)
-
-````markdown
-```mermaid
-graph TD
-    A[Start] --> B{Decision}
-    B -->|Yes| C[Do this]
-    B -->|No| D[Do that]
-```
-````
-
-To link Mermaid nodes to Obsidian notes, add `class NodeName internal-link;`.
-
-## Footnotes
-
-```markdown
-Text with a footnote[^1].
-
-[^1]: Footnote content.
-
-Inline footnote.^[This is inline.]
-```
-
-## Complete Example
-
-````markdown
----
-title: Project Alpha
-date: 2024-01-15
-tags:
-  - project
-  - active
-status: in-progress
----
-
-# Project Alpha
-
-This project aims to [[improve workflow]] using modern techniques.
-
-> [!important] Key Deadline
-> The first milestone is due on ==January 30th==.
-
-## Tasks
-
-- [x] Initial planning
-- [ ] Development phase
-  - [ ] Backend implementation
-  - [ ] Frontend design
-
-## Notes
-
-The algorithm uses $O(n \log n)$ sorting. See [[Algorithm Notes#Sorting]] for details.
-
-![[Architecture Diagram.png|600]]
-
-Reviewed in [[Meeting Notes 2024-01-10#Decisions]].
-````
+- Frontmatter is valid YAML.
+- `tags` are topical keywords, not structured categories.
+- `type` is present when the note is meant to be maintained long-term.
+- Internal references use wikilinks and external references use Markdown links.
+- Links added are semantic rather than decorative.
+- File naming and attachment placement still follow the vault rules.
 
 ## References
 
+- [PROPERTIES.md](references/PROPERTIES.md)
+- [EMBEDS.md](references/EMBEDS.md)
+- [CALLOUTS.md](references/CALLOUTS.md)
+- [WIKILINKS_AND_SYNTAX.md](references/WIKILINKS_AND_SYNTAX.md)
+- [EXAMPLES.md](references/EXAMPLES.md)
 - [Obsidian Flavored Markdown](https://help.obsidian.md/obsidian-flavored-markdown)
 - [Internal links](https://help.obsidian.md/links)
 - [Embed files](https://help.obsidian.md/embeds)

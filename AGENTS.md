@@ -13,18 +13,20 @@ When a task matches one of the domains below, the Agent SHOULD proactively look 
 
 - `skills/obsidian-markdown.md`
   Use for Obsidian-flavored Markdown work: frontmatter, wikilinks, embeds, callouts, tags, note cleanup, and note restructuring.
-  Trigger phrases: "整理这篇笔记", "add frontmatter", "fix wikilinks", "convert to Obsidian note", "清理标签和双链"
+  Trigger phrases include: "整理这篇笔记", "add frontmatter", "fix wikilinks", "convert to Obsidian note", "清理标签和双链"
 - `skills/obsidian-bases.md`
   Use for Obsidian Bases work: `.base` files, views, filters, formulas, grouping, sorting, and archive dashboards.
-  Trigger phrases: "create a base", "设计一个 Bases 视图", "show inbox notes", "build a projects table", "做一个按状态分组的视图"
+  Trigger phrases include: "create a base", "设计一个 Bases 视图", "show inbox notes", "build a projects table", "做一个按状态分组的视图"
 - `skills/obsidian-cli.md`
   Use for vault automation and operational tasks: searching notes, batch inspection, property queries, scripted maintenance, and CLI-driven workflows.
-  Trigger phrases: "scan the vault", "批量检查这些笔记", "find notes missing type", "run Obsidian CLI", "统计一下这个 vault"
+  Trigger phrases include: "scan the vault", "批量检查这些笔记", "find notes missing type", "run Obsidian CLI", "统计一下这个 vault"
 - `skills/json-canvas.md`
   Use for Canvas work: creating or editing `.canvas` files, visual maps, node/edge layout, and concept graphs.
-  Trigger phrases: "make a canvas", "创建一张关系图", "edit this .canvas", "build a mind map", "连一下这些节点"
+  Trigger phrases include: "make a canvas", "创建一张关系图", "edit this .canvas", "build a mind map", "连一下这些节点"
 
 If a user request is short or underspecified, the Agent should still infer the relevant skill from the task language. Example: "整理 `obsidian-vault-git.md`，放入我的 vault 中" should trigger `skills/obsidian-markdown.md` first, then use vault conventions in this file to decide placement, metadata, and links.
+
+`AGENTS.md` defines vault-wide policy. Skills should add task-specific execution guidance and should not redefine the global rules here.
 
 ## Long-Term Goals
 
@@ -43,7 +45,7 @@ This vault follows a Zettelkasten-inspired approach:
 - **No destructive refactors**: do not batch-rename, move, or delete content without explicit permission.
 - **Reversible by default**: prefer additive changes; avoid irreversible replacements.
 
-## Vault Structure (Iteratively Improved)
+## Vault Structure
 
 This vault uses PARA for file organization:
 
@@ -67,7 +69,7 @@ Note: if you choose numbered names anyway, update Bases `file.inFolder(...)` fil
 
 - **Filenames**: use readable, lowercase English words; add a keyword if needed (e.g. `topic-keyword`); use `-` as a separator. Avoid overly long names, spaces, and special characters (especially `:`, `#`, `[]`). Avoid redundant names implied by the folder path (e.g. `obsidian/obsidian-bases`).
 - **Date naming**: if a note uses a date name, standardize on `YYYY-MM-DD` (e.g. `2026-03-05`).
-- **Attachments**: follow Obsidian’s attachment settings; keep attachments in the note’s attachment folder (e.g. `attachments/`) rather than scattered. Embed with `![[...]]`.
+- **Attachments**: follow Obsidian's attachment settings: keep attachments in the note's attachment folder (e.g. `attachments/`) rather than scattered. Embed with `![[...]]`.
 
 ### Ordering Prefixes (Optional; Off by Default)
 
@@ -76,8 +78,9 @@ Some users add a numeric prefix to file/folder names (e.g. `01-...`) to get a fi
 - **Do not add numeric prefixes to normal note filenames by default**: it adds noise and ongoing maintenance cost in `[[wikilink]]` and Bases `file.name/file.basename` displays.
 - **If you truly need a linear sequence** (courses, book chapters, serialized lists, fixed process docs), enable numeric prefixes for that small series:
   - Prefer fixed-width prefixes (e.g. two digits): `01-...`, `02-...`, `10-...` to keep ordering stable and allow insertion.
-  - Use frontmatter `aliases` to provide non-numbered display names for reading/linking, and use display-text links in content (e.g. `[[01-foo|foo]]`).
-  - In Bases views, prefer showing `title` (or a custom display field) rather than treating the numeric prefix as primary information.
+  - See `obsidian-markdown` for note-level display and linking guidance when prefixes are used.
+
+Detailed note-editing rules, note-linking heuristics, and examples live in `obsidian-markdown`.
 
 ## Minimal Note Structure (Recommended)
 
@@ -116,26 +119,18 @@ Field conventions (v1):
 ### Meta callout
 
 - Do **not** maintain `created/updated` properties. Use `file.ctime/file.mtime` as the single source of truth. For readers, add a small tail section to display dates (not indexed as properties).
-  - The Meta display is recommended via the `Dataview` plugin reading `file.ctime/file.mtime`. If Dataview is not installed, omit the Meta block or write times manually.
-
-```markdown
-<!-- Put at the end of the note; not properties; for readers only -->
->[!info] Meta
-> created: `= dateformat(this.file.ctime, "yyyy-MM-dd")`
-> updated: `= dateformat(this.file.mtime, "yyyy-MM-dd HH:mm")`
-```
+  - The Meta display may use `Dataview` to read `file.ctime/file.mtime`; if Dataview is not installed, omit the block or write times manually.
 
 ### Body (Connections First)
 
 - The opening should answer: what is this / why it matters / what it relates to.
 - Use `[[wikilink]]` for internal references; use Markdown links for external URLs only.
-- For keywords that should exist as atomic concepts, add `[[wikilink]]` even if the target note does not exist yet.
 - For notes of the same type (`type`), use consistent templates (under `templates/`) to reduce missing sections and improve readability (*template library is still evolving*).
 
 ### Templates (v1)
 
 - Store all templates under `templates/`.
-- Organize templates by type structure, e.g. `templates/project/course.md`, `templates/project/paper.md`. Each type should have at least one (possibly multiple) templates; create notes of that type from a template first.
+- Organize templates by type structure. Each type should have at least one (possibly multiple) templates; create notes of that type from a template first.
 - If no template fits, prefer extracting a new template pattern.
 
 ## Tags Rules (Keywords First)
@@ -149,25 +144,13 @@ Conventions:
 - Avoid near-duplicates; fewer common tags beat many rare tags.
 - Typically keep **1–5 tags** per note; if you exceed that, consider properties (e.g. `area/project/source`) or links (`[[related concept]]`) instead.
 
-Examples:
-
-- `tags: [openai, agent, coding]`
-- `tags: [writing, zettelkasten]`
-- `tags: [project-management, roadmap]`
-
 ## Linking Rules (Connections)
 
-- **Prefer semantic links**: avoid dumping isolated links; place links where the reader would naturally need to jump for context (e.g., `you can use [[zettelkasten]] system to organize your notes`).
-- **Link only with high confidence**: add links when reuse/relationship is real.
-- **Archivable keyword links**: when a keyword needs explanation and qualifies as an atomic concept, link it as `[[keyword]]` even if the target note doesn’t exist yet.
-  - Be strict about relevance/importance to avoid uncontrolled red-link explosions.
-- **Link priority**:
-  1. The definition note for the same concept (concept note)
-  2. Parent/child topic relationships
-  3. Logical relationships within the content
-  4. From a project hub to related outputs/meetings/decisions
-- **Hub / MOC structure**: if a topic grows beyond ~7 related notes, create a hub (index/MOC) to organize navigation rather than creating a dense mesh of cross-links everywhere.
-- You may maintain a small `## Related` section when necessary, but keep it short and readable.
+- Internal links are a core part of retrieval and note connection in this vault, not just Markdown syntax.
+  - a unresolved link is allowed for future reference.
+  - Inline Internal links (with real semantic meaning) is recommended when taking note e.g., `here is suppose to be a [[keyword]]`(although for better management, a `Related` block is needed)
+- Notes should usually have at least one meaningful semantic connection (`[[...]]`) or be included in a hub / MOC.
+- Detailed note-linking heuristics, red-link policy, and hub guidance live in `obsidian-markdown`.
 
 ## Bases Rules (Archival Views)
 
@@ -192,6 +175,8 @@ Examples:
 - **orphans / orphans**: notes with no outgoing links and no backlinks (or very few); used to add connections.
 - **projects / projects overview**: `type=project`, grouped by `status`.
 - **recently-updated / recently updated**: sorted by `file.mtime` as the review entry point.
+
+Detailed `.base` schema, formulas, syntax, and examples live in `obsidian-bases`.
 
 ## Definition of Done (DoD)
 
@@ -220,4 +205,3 @@ When the user asks to “improve archiving and connections”, follow:
 ---
 
 Note: when creating/editing `.base` files, follow the in-vault `obsidian-bases` Skill; when editing normal notes, follow `obsidian-markdown`; when doing bulk stats/management/operations (or leveraging built-in features), follow `obsidian-cli`.
-
