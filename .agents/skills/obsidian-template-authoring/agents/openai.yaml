@@ -1,0 +1,4 @@
+interface:
+  display_name: "Obsidian Template Authoring"
+  short_description: "Author Obsidian Templater note templates"
+  default_prompt: "Use $obsidian-template-authoring to create or refine an Obsidian Templater template under templates/ for this workflow."
