@@ -1,6 +1,6 @@
 {
-  "folder": "workspace",
+  "folder": "daily",
   "autorun": false,
   "format": "YYYY-MM-DD",
-  "template": "templates/zettel"
+  "template": "templates/daily"
 }
