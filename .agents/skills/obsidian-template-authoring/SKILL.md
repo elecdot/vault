@@ -1,6 +1,6 @@
 ---
 name: obsidian-template-authoring
-description: 'Create and edit reusable Obsidian note templates using the Templater plugin syntax and Templater JavaScript. Use when building daily, meeting, project, source, or other note templates, converting notes into reusable templates, adding dynamic frontmatter or prompts, or organizing a repository-level template library under templates/.'
+description: 'Create and edit reusable Obsidian note templates using the Templater plugin syntax and Templater JavaScript. Use when building daily, meeting, project, resource, or other note templates, converting notes into reusable templates, adding dynamic frontmatter or prompts, or organizing a repository-level template library under templates/.'
 ---
 
 # Obsidian Template Authoring Skill
@@ -15,18 +15,19 @@ Keep the main skill procedural and load references only when needed:
 ## Workflow
 
 1. **Inspect the target workflow**: identify what repeated task the template should support, what note it should produce, and whether the vault already has a nearby template or naming pattern to extend.
-2. **Choose the template subfolder**: prefer `templates/<workflow-family>/` such as `templates/daily/`, `templates/projects/`, or `templates/meetings/`. Do not derive the folder mechanically from the note `type` field; prefer stable workflow families the user will recognize later.
-3. **Design the output note shape**: define the filename, target folder, frontmatter, main sections, expected wikilinks, and any prompts or computed values. Only add `type` or other structured properties when they are clearly useful and already align with vault practice.
+2. **Choose the template subfolder**: prefer `templates/<kind>/` as the default home for a template. When one `kind` has multiple recurring expression shapes or stable template patterns, use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
+3. **Design the output note shape**: define the filename, target folder, frontmatter, main sections, expected wikilinks, and any prompts or computed values. Use the vault's `kind`/`format` model when structured properties are helpful, and avoid reintroducing the old overloaded `type` field.
 4. **Author with Templater**: use `tp.*` helpers for values that genuinely vary between runs. Prefer interpolation commands for simple output and execution blocks for prompts, branching, async work, or multi-step JavaScript.
 5. **Match vault conventions**: keep filenames readable and lowercase, store reusable templates under `templates/`, and align frontmatter and links with the vault rules in `AGENTS.md`.
 6. **Validate the rendered result**: confirm YAML validity, check that Templater expressions are correct, and make sure the produced note shape is plausible without additional manual cleanup.
 
 ## Foldering Strategy
 
-- Prefer subfolders under `templates/` for archive-by-type or archive-by-workflow organization.
-- Use workflow families that are easy to recognize from the user's request, such as `daily`, `meetings`, `projects`, `sources`, or `people`.
-- If the vault does not yet have a stable family for the template, choose a descriptive folder name tied to the repeated workflow rather than forcing a stronger `type` taxonomy.
-- If a template could fit multiple families, choose the folder that best matches how the user will look for it later.
+- Prefer `templates/<kind>/` as the stable default organization.
+- Use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one `kind` has multiple high-frequency template families.
+- Keep filenames specific to the produced note shape, for example `summary.md`, `outline.md`, `reference.md`, or `weekly-review.md`.
+- If the right second-level subdivision is unclear, prefer a flatter `templates/<kind>/` layout until repeated usage justifies more structure.
+- If a template could plausibly fit multiple places, choose the folder that best matches the note's `kind`; use the filename or second-level folder to express the format or local pattern difference.
 
 ## Templater Authoring Rules
 
@@ -40,7 +41,7 @@ Keep the main skill procedural and load references only when needed:
 
 ## Quality Criteria
 
-- The chosen subfolder is justified by workflow family, not by a forced taxonomy.
+- The chosen subfolder is justified by `kind` first, with `format` or a descriptive local pattern name used only as needed for retrieval.
 - Frontmatter stays valid after template expansion.
 - The template produces a note that matches the vault's note and linking conventions.
 - Dynamic fields are limited to values that genuinely vary between uses.
@@ -48,7 +49,7 @@ Keep the main skill procedural and load references only when needed:
 
 ## Completion Checklist
 
-- Template saved under `templates/` and usually under a descriptive subfolder.
+- Template saved under `templates/` and usually under a `kind` subfolder, optionally with one deeper `format` or descriptive-pattern subdivision.
 - Filename is readable and stable.
 - Templater syntax uses valid command forms such as `<% ... %>`, `<%* ... %>`, or other documented Templater tags only.
 - Internal references are written as wikilinks.

@@ -11,8 +11,8 @@ This skill keeps task rules and vault-specific conventions in the main body. Syn
 
 ## Workflow: Creating or Editing an Obsidian Note
 
-1. **Inspect the note context**: identify the note type, intended folder, nearby linked notes, and whether a template already exists for this kind of note.
-2. **look for relevant templates**: if a template exists for this note type, use it as the starting point. If not, create a new note following the vault's naming and folder rules.
+1. **Inspect the note context**: identify the note `kind`, optional `format`, intended folder, nearby linked notes, and whether a matching template already exists.
+2. **Look for relevant templates**: first look for a template under this note's `kind`. If that `kind` has multiple recurring expression shapes or stable template patterns, use the relevant `format` or descriptive subfolder subdivision. If no matching template exists, create a new note following the vault's naming and folder rules.
 2. **Add or update frontmatter**: prefer the vault's minimal property set. See [PROPERTIES.md](references/PROPERTIES.md) for property syntax details.
 3. **Preserve prose**: make minimal edits; do not rewrite prose just to normalize style.
 4. **Add semantic connections**: use wikilinks for internal notes (a unresolved link is allowed for future reference), Markdown links for external URLs, and add tags only when they improve retrieval.
@@ -30,7 +30,8 @@ This skill keeps task rules and vault-specific conventions in the main body. Syn
 
 - Frontmatter is valid YAML.
 - `tags` are topical keywords, not structured categories.
-- `type` is present when the note is meant to be maintained long-term.
+- `kind` is present when the note is meant to be maintained long-term.
+- `format` is present when it adds retrieval, workflow, or template value.
 - Internal references use wikilinks and external references use Markdown links.
 - Links added are semantic rather than decorative.
 - File naming and attachment placement still follow the vault rules.

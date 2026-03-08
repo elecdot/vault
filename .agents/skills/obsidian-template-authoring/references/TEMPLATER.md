@@ -15,10 +15,10 @@ Use Templater when a note template needs logic, prompts, file-aware behavior, or
 
 ## Foldering Guidance
 
-- Save reusable templates under `templates/<workflow-family>/` when possible.
-- Prefer folder names based on repeated workflows such as `daily`, `meetings`, `projects`, or `sources`.
-- Do not assume the vault's `type` property is complete enough to drive template taxonomy on its own.
-- If a template introduces a new recurring workflow, create a clear subfolder for that workflow rather than overloading an existing one.
+- Save reusable templates under `templates/<kind>/` by default.
+- When one `kind` contains multiple high-frequency expression shapes or stable template patterns, add a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
+- Keep the folder tree shallow unless repeated use clearly justifies more structure.
+- Use filenames or frontmatter to express the exact note shape when that improves retrieval.
 
 ## Good Fits
 
@@ -48,7 +48,8 @@ Whitespace control forms from the official docs:
 ```md
 ---
 title: '<% tp.file.title %>'
-type: "diary"
+kind: "daily"
+format: "journal"
 status: "active"
 date: '<% tp.date.now("YYYY-MM-DD") %>'
 tags:

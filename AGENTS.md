@@ -19,7 +19,7 @@ When a task matches one of the domains below, the Agent SHOULD proactively look 
   Trigger phrases include: "create a base", "设计一个 Bases 视图", "show inbox notes", "build a projects table", "做一个按状态分组的视图"
 - `skills/obsidian-cli.md`
   Use for vault automation and operational tasks: searching notes, batch inspection, property queries, scripted maintenance, and CLI-driven workflows.
-  Trigger phrases include: "scan the vault", "批量检查这些笔记", "find notes missing type", "run Obsidian CLI", "统计一下这个 vault"
+  Trigger phrases include: "scan the vault", "批量检查这些笔记", "find notes missing kind", "run Obsidian CLI", "统计一下这个 vault"
 - `skills/json-canvas.md`
   Use for Canvas work: creating or editing `.canvas` files, visual maps, node/edge layout, and concept graphs.
   Trigger phrases include: "make a canvas", "创建一张关系图", "edit this .canvas", "build a mind map", "连一下这些节点"
@@ -94,7 +94,8 @@ Recommended minimal set (use as needed; not all notes must fill everything):
 ---
 title: ""
 tags: []
-type: ""        # note / concept / project / meeting / person / source / diary, etc.
+kind: ""        # concept / resource / project / area / person / meeting / daily / index, etc.
+format: ""      # note / outline / checklist / summary / reference / journal / template, etc.
 status: ""      # fleeting / active / paused / done / archived (optional)
 area: ""        # area of responsibility (optional)
 project: ""     # related project (optional; prefer links or consistent strings)
@@ -105,16 +106,36 @@ aliases: []     # note aliases: friendlier display names; searchable (optional)
 
 Rules:
 
-- `type/status/area/project/source` are for **structured classification and filtering** (Bases and search).
+- `kind/format/status/area/project/source` are for **structured classification and filtering** (Bases and search).
 - `tags` are **keywords/topics** (e.g. `openai`, `agent`, `coding`) for search and association. Avoid encoding “structured classification” into tags to reduce redundancy.
 - Quote strings that contain special characters to keep YAML valid.
 
 Field conventions (v1):
 
-- `type`: the “primary type” used by Bases filters; the set may evolve, but avoid frequently changing a note’s type.
+- `kind`: the primary semantic class used by Bases filters. It should answer “what kind of thing is this note about?” and remain stable over time.
+- `format`: the document or workflow shape of the note. It should answer “how is this note expressed right now?” and may change more often than `kind`.
 - `status`: optional; enable only when you need workflow management (e.g., project `active/paused/done`).
 - `area` / `project`: prefer links (e.g. `[[areas/xxx]]`, `[[projects/yyy]]`) so structured fields also strengthen the graph.
 - `source`: prefer links or URLs (e.g. `[[resources/xxx]]` or `"https://..."`).
+
+Kind conventions (v1):
+
+- `concept`: a reusable idea, claim, method, or conclusion.
+- `resource`: a note primarily about external material, such as excerpts, summaries, annotations, or source tracking.
+- `project`: a time-bounded effort with a completion condition.
+- `area`: an ongoing responsibility without a clear finish line.
+- `person`: a person-centric note.
+- `meeting`: a conversation or meeting record.
+- `daily`: a time-based daily note or journal-like running record.
+- `index`: a hub, MOC, or navigation page.
+
+Decision rule:
+
+- `kind` answers: “what is this note fundamentally for?”
+- `format` answers: “what form does this note currently take?”
+- If a value describes the note’s semantic role, it belongs in `kind`.
+- If a value describes the note’s presentation or workflow shape, it belongs in `format`.
+- Do not mix abstraction levels inside `kind`; avoid values like `summary` or `checklist` there because they describe form, not semantic identity.
 
 ### Meta callout
 
@@ -125,12 +146,17 @@ Field conventions (v1):
 
 - The opening should answer: what is this / why it matters / what it relates to.
 - Use `[[wikilink]]` for internal references; use Markdown links for external URLs only.
-- For notes of the same type (`type`), use consistent templates (under `templates/`) to reduce missing sections and improve readability (*template library is still evolving*).
+- For notes of the same `kind`, use consistent templates (under `templates/`) to reduce missing sections and improve readability. When one `kind` has multiple recurring expression shapes or stable template patterns, use `format` or a descriptive subfolder name to refine template choice (*template library is still evolving*).
 
 ### Templates (v1)
 
 - Store all templates under `templates/`.
-- Organize templates by type structure. Each type should have at least one (possibly multiple) templates; create notes of that type from a template first.
+- Organize templates by `kind` by default, for example `templates/concept/`, `templates/resource/`, `templates/project/`, or `templates/daily/`.
+- When one `kind` contains multiple high-frequency expression shapes or stable template patterns, refine with a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
+- Do not add deeper nesting unless the additional subdivision clearly improves retrieval and template selection.
+- Keep filenames readable and specific to the produced note shape, for example `summary.md`, `outline.md`, `reference.md`, or `weekly-review.md`.
+- Each important `kind` or recurring `format` should have at least one usable template; create notes from a template when one fits.
+- `workflow` is not a formal note property or taxonomy axis in this vault. If `format` is not sufficient for template subdivision, use a descriptive subfolder name only as a local template-library convention.
 - If no template fits, prefer extracting a new template pattern.
 
 ## Tags Rules (Keywords First)
@@ -170,10 +196,10 @@ Conventions:
 
 ### Recommended Long-Term Views (Iterate into them)
 
-- **inbox / to-triage**: notes missing `type` or key properties; recently created but not classified.
+- **inbox / to-triage**: notes missing `kind` or key properties; recently created but not classified.
 - **missing / unresolved links**: list notes with missing/unresolved links (and which links are missing). Common formulas: `.agents/skills/obsidian-bases/references/COMMON_FORMULAS.md`.
 - **orphans / orphans**: notes with no outgoing links and no backlinks (or very few); used to add connections.
-- **projects / projects overview**: `type=project`, grouped by `status`.
+- **projects / projects overview**: `kind=project`, grouped by `status`.
 - **recently-updated / recently updated**: sorted by `file.mtime` as the review entry point.
 
 Detailed `.base` schema, formulas, syntax, and examples live in `obsidian-bases`.
@@ -182,14 +208,15 @@ Detailed `.base` schema, formulas, syntax, and examples live in `obsidian-bases`
 
 A note can be considered “maintainable long-term” (moved out of inbox / no longer just a draft) when:
 
-- `type` is filled (the type set may evolve over time).
+- `kind` is filled and follows the semantic decision rule above.
+- `format` is filled when it adds retrieval or template value.
 - `tags` ≤ 5 and reflect the note’s keywords.
 - It has at least 1 semantic link (`[[...]]`) OR it is included in an MOC/Hub.
 - If red links start to accumulate, resolve them in batches using the Missing view to prevent long-term drift.
 
 ## Maintenance Rhythm (Suggested)
 
-- Weekly: clear Inbox (fill `type/tags`, add 1–3 key links). Use the Missing view to pick and resolve items, avoid Missing exploding.
+- Weekly: clear Inbox (fill `kind`, optionally `format`, refine `tags`, add 1–3 key links). Use the Missing view to pick and resolve items, avoid Missing exploding.
 - Monthly: handle Orphans (add hubs for important notes, merge duplicate concepts, clean up tag synonyms).
 
 ## Agent Workflow (Suggested)
@@ -197,7 +224,7 @@ A note can be considered “maintainable long-term” (moved out of inbox / no l
 When the user asks to “improve archiving and connections”, follow:
 
 1) **Scan**: summarize current tags, common properties, folder structure, orphans/high-frequency terms (summary only; no big edits yet).
-2) **Propose taxonomy**: propose core properties (e.g. `type/status/area/project/source`) plus a recommended keyword tag list; only add namespace tags if explicitly requested.
+2) **Propose taxonomy**: propose core properties (e.g. `kind/format/status/area/project/source`) plus a recommended keyword tag list; only add namespace tags if explicitly requested.
 3) **Design 2–5 key Bases**: draft filters/views/key formulas for `.base` files.
 4) **Pilot small batch**: apply to one domain or 20–50 notes, then review.
 5) **Scale**: after confirmation, apply in bulk and keep maintaining.

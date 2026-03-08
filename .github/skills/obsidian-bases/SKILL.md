@@ -21,6 +21,7 @@ This skill keeps workflow, vault-specific rules, and high-frequency pitfalls in 
 ## Vault Policy
 
 - Follow the vault-wide Bases organization and view strategy defined in `AGENTS.md`.
+- When filtering or grouping vault notes, prefer the vault's structured properties such as `kind`, `format`, `status`, `area`, `project`, and `source` when they match the view.
 - Use this skill to implement `.base` files, formulas, views, and validation for those policies; do not redefine them here.
 
 ## Validation and Troubleshooting
