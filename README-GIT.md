@@ -18,86 +18,97 @@ Rules:
 - use short lowercase `scope`
 - start `summary` with a verb
 - keep `summary` concise and outcome-focused
-- use a single scope by default
-- use comma-separated scopes only when one change genuinely spans two tightly coupled subsystems
+- prefer one scope by default
+- use compound scopes only when one change genuinely spans two tightly coupled scopes
 
 Example:
 
 ```text
-agent(vault,skills): update taxonomy strategy and templates foldering
+organize(moc): rebuild ai learning map around systems and theory
 ```
+
+## Quick Start
+
+If you are used to Conventional Commits, adapt with this mapping:
+
+- `feat` often becomes `capture`, `distill`, or `system`
+- `refactor` usually becomes `organize`
+- `fix` stays `fix`
+- `docs` stays `docs`
+- `chore` stays `chore`
+
+Practical shortcut:
+
+- if you added raw or early-stage material, use `capture`
+- if you turned material into clearer durable knowledge, use `distill`
+- if you mainly reorganized notes, links, MOCs, or PARA placement, use `organize`
+- if you changed templates, Bases, scripts, agent rules, or Obsidian config, use `system`
 
 ## Types
 
-- `note`: add or expand regular knowledge notes
-- `moc`: create or reorganize MOCs, indexes, and navigation pages
-- `lit`: add or refine literature notes
-- `template`: change note templates
-- `asset`: change attachments, diagrams, PDFs, Canvas files, or other resources
-- `vault`: change Obsidian configuration, plugins, theme, or hotkeys
-- `agent`: upgrade the repository's agent system, including `AGENTS.md`, skills, prompts, and agent workflows
-- `zotero`: change Zotero-related workflows, metadata, or import behavior
-- `refactor`: reorganize existing content without adding core new knowledge
-- `fix`: correct errors, broken links, formulas, or frontmatter
-- `docs`: change repository documentation or workflow instructions
-- `chore`: perform general maintenance or normalization work
-- `feat`: add automation, scripts, or tooling capability
+- `capture`: collect or import raw or early-stage material
+- `distill`: turn rough material into clearer durable knowledge
+- `organize`: restructure notes, links, MOCs, folders, or PARA placement
+- `fix`: correct errors, broken links, metadata, formulas, or invalid structure
+- `system`: change templates, Bases, scripts, agent workflows, or Obsidian configuration
+- `archive`: archive or retire notes, projects, or processed material
+- `docs`: update repository documentation or workflow instructions
+- `chore`: low-level maintenance that does not deserve a stronger semantic type
 
 ## Scope
 
-Prefer one of these scope sources:
+Prefer scopes that reflect the vault workflow model.
 
-- topic domain: `ml`, `os`, `llm`, `rl`
-- vault module: `obsidian`, `workflow`, `daily`, `repo`, `skills`
-- project or area name: `capstone`, `thesis`
-
-Use compound scopes sparingly:
-
-```text
-agent(vault,skills): update taxonomy strategy and templates foldering
-```
+- PARA containers: `inbox`, `projects`, `areas`, `resources`, `knowledge`, `archive`
+- Zettelkasten objects: `fleeting`, `literature`, `permanent`, `moc`, `linking`, `index`
+- system modules: `template`, `bases`, `agent`, `obsidian`, `zotero`, `scripts`, `repo`
+- topic scopes: use only when the topic itself is the clearest retrieval key
 
 ## Examples
 
-Knowledge notes:
+Knowledge intake and synthesis:
 
 ```text
-note(ml): add backpropagation intuition note
-note(llm): expand notes on speculative decoding
+capture(inbox): add notes from llm serving lecture
+capture(resources): import rl lecture notes and references
+distill(literature): extract dqn paper claims into permanent notes
+distill(knowledge): turn course notes into atomic transformer notes
 ```
 
-Navigation:
+Structure and graph work:
 
 ```text
-moc(ai): create learning map for llm systems
-refactor(moc): merge duplicate ai index pages
+organize(moc): rebuild ai learning map around systems and theory
+organize(linking): connect bandit, exploration, and policy notes
+organize(projects): move capstone notes from inbox to projects
 ```
 
-Vault and agent system:
+Corrections and support system:
 
 ```text
-vault(obsidian): enable git and dataview plugins
-agent(skills): add obsidian-template-authoring
-agent(workflow): refine note-archiving rules
+fix(linking): repair broken wikilinks in llm notes
+fix(metadata): correct frontmatter in imported literature notes
+system(template): refine study summary template
+system(bases): add inbox triage view for notes missing kind
+system(obsidian): enable git and dataview plugins
 ```
 
-Templates and automation:
+Lifecycle and repository docs:
 
 ```text
-template(daily): simplify reflection prompts
-feat(scripts): add frontmatter validation script
-```
-
-Documentation and maintenance:
-
-```text
-docs(repo): add vault contribution guide
+archive(projects): archive finished capstone planning notes
+archive(resources): move processed reading notes to archive
+docs(repo): clarify vault commit convention
 chore(repo): normalize line endings to lf
 ```
 
 ## Working Rules
 
-- keep one commit focused on one kind of change
-- do not use `note` for pure restructures; use `refactor` or `moc`
-- do not use `feat` for ordinary notes
-- separate content changes from vault or agent infrastructure changes whenever possible
+- keep one commit focused on one workflow meaning
+- separate knowledge changes from system changes whenever possible
+- prefer `organize` over `distill` when the main value is restructuring
+- prefer `distill` over `capture` when the change reflects actual synthesis
+- use `archive` only for explicit lifecycle transitions
+- do not use `chore` when a more meaningful type fits
+
+See [[areas/vault-commit-convention|Vault Commit Convention]] for boundaries, rationale, and detailed examples.
