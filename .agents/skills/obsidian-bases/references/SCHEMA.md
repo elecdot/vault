@@ -48,6 +48,21 @@ views:
       property_name: Average
 ```
 
+### Hand-Authored View Keys
+
+For hand-authored `.base` files in this vault, treat the documented view keys above as the stable schema.
+
+- Use `order` only to control which properties are displayed and in what column order.
+- Use `groupBy` to define grouping in hand-authored YAML.
+- Do not rely on a hand-written `sort` key as part of the stable schema.
+
+Why: the official [[Views]] documentation describes sorting as view configuration, and the official [[Bases syntax]] page does not list `sort` in the stable schema above. It also notes that views may persist extra internal state as additional keys. In practice, the Obsidian GUI may write a `sort` block into a `.base` file, but this should be treated as GUI-managed view state rather than a core hand-authored field.
+
+Practical rule:
+
+- If the GUI adds `sort`, you may preserve it when you intentionally want to keep the GUI's state.
+- When writing or normalizing `.base` files by hand, prefer omitting `sort` unless you have verified that the current Obsidian version depends on it for that specific view.
+
 ## Filter Syntax
 
 Filters narrow down results. They can be applied globally or per-view.
