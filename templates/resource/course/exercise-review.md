@@ -4,6 +4,12 @@ const promptValue = async (label, fallback = "") => {
   return value ? value.trim() : "";
 };
 
+const chooseValue = async (label, options, fallback) => {
+  const fallbackIndex = Math.max(options.indexOf(fallback), 0);
+  const value = await tp.system.suggester(options, options, false, label, fallbackIndex);
+  return value || fallback || options[0];
+};
+
 const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 
 const slugify = (value) => {
@@ -30,6 +36,15 @@ const bulletLinks = (value) => {
 const courseName = await promptValue("Course name");
 const reviewTitle = await promptValue("Exercise or assignment title");
 const title = reviewTitle || `${courseName || "course"} exercise review`;
+const courseSlug = slugify(courseName || "course");
+const locationKind = await chooseValue("Store under", ["resources", "projects", "custom"], "resources");
+const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
+const targetFolder = locationKind === "custom"
+  ? await promptValue("Target folder", `resources/${courseSlug}`)
+  : defaultTargetFolder;
+const projectNote = locationKind === "projects"
+  ? await promptValue("Project note (wikilink target)", courseSlug)
+  : "";
 const source = await promptValue("Source link or note (optional)");
 const task = await promptValue("Prompt or task summary");
 const extraTagsInput = await promptValue("Extra tags, comma-separated (optional)");
@@ -42,10 +57,16 @@ const extraTags = extraTagsInput
       .filter(Boolean)
   : [];
 
-const allTags = [...new Set(["course", "exercise", ...extraTags])];
+const allTags = [...new Set(["course", "exercise", courseSlug, ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
+const courseOverviewLink = courseName ? `[[${courseSlug}]]` : "[[course-overview]]";
+const projectYaml = projectNote ? `project: "${yamlEscape(`[[${projectNote}]]`)}"\n` : "";
+const noteSlug = slugify(title);
 
-await tp.file.rename(slugify(title));
+await tp.file.rename(noteSlug);
+if (targetFolder) {
+  await tp.file.move(`${targetFolder}/${noteSlug}`);
+}
 
 tR += `---
 title: "${yamlEscape(title)}"
@@ -53,28 +74,25 @@ tags:
 ${tagYaml}
 kind: "resource"
 format: "review"
-source: "${yamlEscape(source)}"
-aliases: []
+${projectYaml}source: "${yamlEscape(source)}"
 ---
 
 # ${title}
 
-## Prompt / Task
+## Task
 ${task || "Not specified."}
 
-## My Approach
+## Approach
 
-## What Worked
-- 
-
-## Mistakes
-- 
-
-## What To Remember
+## Takeaways
 - 
 
 ## Related
-- [[${courseName || "course overview"}]]
+- ${courseOverviewLink}
 ${related ? "\n" + bulletLinks(related) : ""}
+
+## Next
+- [ ] Distill key lessons into a study summary
+- [ ] Link this note to a related concept or project note
 `;
 -%>

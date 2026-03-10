@@ -1,0 +1,75 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.path != this.path
+    - file.hasLink(this)
+formulas:
+  note_type: if(format == "overview", "Overview", if(format == "summary", "Summary", if(format == "review", "Exercise", if(format == "note", "Lecture", "Other"))))
+  days_since_update: (now() - file.mtime).days.round(0)
+  total_links: file.links.length + file.backlinks.length
+  missing_links_count: file.links.filter(!value.asFile().isTruthy()).length
+  needs_follow_up: format == "note" || format == "review"
+properties:
+  file.name:
+    displayName: Note
+  formula.note_type:
+    displayName: Type
+  kind:
+    displayName: Kind
+  format:
+    displayName: Format
+  status:
+    displayName: Status
+  source:
+    displayName: Source
+  file.folder:
+    displayName: Folder
+  file.mtime:
+    displayName: Updated
+  formula.days_since_update:
+    displayName: Days Since Update
+  formula.total_links:
+    displayName: Links
+  formula.missing_links_count:
+    displayName: Missing Links
+views:
+  - type: table
+    name: Linked Notes
+    groupBy:
+      property: format
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - source
+      - file.mtime
+      - formula.days_since_update
+      - formula.total_links
+      - formula.missing_links_count
+  - type: table
+    name: Work Queue
+    filters:
+      and:
+        - formula.needs_follow_up
+    groupBy:
+      property: format
+      direction: ASC
+    order:
+      - file.name
+      - format
+      - source
+      - file.mtime
+      - formula.days_since_update
+      - formula.total_links
+      - formula.missing_links_count
+  - type: table
+    name: Summaries
+    filters:
+      and:
+        - format == "summary"
+    order:
+      - file.name
+      - source
+      - file.mtime
+      - formula.days_since_update
+      - formula.total_links

@@ -4,6 +4,12 @@ const promptValue = async (label, fallback = "") => {
   return value ? value.trim() : "";
 };
 
+const chooseValue = async (label, options, fallback) => {
+  const fallbackIndex = Math.max(options.indexOf(fallback), 0);
+  const value = await tp.system.suggester(options, options, false, label, fallbackIndex);
+  return value || fallback || options[0];
+};
+
 const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 
 const slugify = (value) => {
@@ -29,8 +35,13 @@ const bulletLinks = (value) => {
 
 const courseName = await promptValue("Course name");
 const title = courseName || `course overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const courseSlug = slugify(courseName || title);
+const locationKind = await chooseValue("Store under", ["resources", "projects", "custom"], "resources");
+const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
+const targetFolder = locationKind === "custom"
+  ? await promptValue("Target folder", `resources/${courseSlug}`)
+  : defaultTargetFolder;
 const source = await promptValue("Primary source link or note (optional)");
-const whyStudy = await promptValue("Why study this course?");
 const extraTagsInput = await promptValue("Extra tags, comma-separated (optional)");
 const related = await promptValue("Related note names, comma-separated (optional)");
 
@@ -41,10 +52,14 @@ const extraTags = extraTagsInput
       .filter(Boolean)
   : [];
 
-const allTags = [...new Set(["course", ...extraTags])];
+const allTags = [...new Set(["course", courseSlug, ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
+const noteSlug = slugify(title);
 
-await tp.file.rename(slugify(title));
+await tp.file.rename(noteSlug);
+if (targetFolder) {
+  await tp.file.move(`${targetFolder}/${noteSlug}`);
+}
 
 tR += `---
 title: "${yamlEscape(title)}"
@@ -52,28 +67,30 @@ tags:
 ${tagYaml}
 kind: "index"
 format: "overview"
+status: "active"
 source: "${yamlEscape(source)}"
-aliases: []
 ---
 
 # ${title}
 
-## What This Is
-An entry point for the course, its notes, and its related study material.
+>An entry point for the course, its notes, and its related study material.
 
-## Why Study It
-${whyStudy || "Not specified."}
-
-## Source
-${source || "none"}
+## Overview
+-
 
 ## Structure
-- [[${title} lecture 01]]
-- [[${title} study summary 01]]
-- [[${title} exercise review 01]]
 
-## Key Notes
-- 
+\`\`\`dataview
+TASK
+FROM ""
+WHERE
+  !completed AND
+  startswith(file.folder, this.file.folder) AND
+  !contains(file.folder, "templates")
+GROUP BY file.link
+\`\`\`
+>Notes that link back to this overview will appear here.
+![[bases/course-structure.base#Linked Notes]]
 
 ## Related
 ${bulletLinks(related)}
