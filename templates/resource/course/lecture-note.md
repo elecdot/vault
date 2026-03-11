@@ -1,4 +1,13 @@
 <%*
+const runMode = tp.config.run_mode;
+const targetFile = tp.config.target_file;
+const targetContent = targetFile ? (await app.vault.cachedRead(targetFile)).trim() : "";
+if (runMode !== 0 && targetContent) {
+  new Notice("lecture-note cannot run into a non-empty note. Use 'Create new note from template' or start from an empty note.");
+  tR += targetContent;
+  return;
+}
+
 const promptValue = async (label, fallback = "") => {
   const value = await tp.system.prompt(label, fallback);
   return value ? value.trim() : "";
