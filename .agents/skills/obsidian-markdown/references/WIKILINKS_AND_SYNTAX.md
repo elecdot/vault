@@ -10,6 +10,20 @@
 [[#Heading in same note]]              Same-note heading link
 ```
 
+For this vault, prefer space-free wikilink targets that match the canonical filename, usually with `-` as the separator:
+
+```markdown
+[[self-hosting]]                              Preferred canonical target
+[[abstract-syntax-tree|abstract syntax tree]] Canonical target with readable display text
+[[CPython]] or [[cpython|CPython]]            Case differences are acceptable
+```
+
+Rule of thumb:
+
+- avoid spaces in the link target; normalize them to `-`
+- case differences in the link target are acceptable in Obsidian
+- when you want readable prose, keep the target canonical and use `|` for display text
+
 Define a block ID by appending `^block-id` to any paragraph:
 
 ```markdown
