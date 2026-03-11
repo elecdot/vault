@@ -89,6 +89,12 @@ source: "${yamlEscape(source)}"
 
 ## Structure
 
+>Notes that link back to this overview will appear here.
+
+![[bases/course-structure.base#Linked Notes]]
+
+## TODOs
+
 \`\`\`dataview
 TASK
 FROM ""
@@ -98,8 +104,6 @@ WHERE
   !contains(file.folder, "templates")
 GROUP BY file.link
 \`\`\`
->Notes that link back to this overview will appear here.
-![[bases/course-structure.base#Linked Notes]]
 
 ## Related
 ${bulletLinks(related)}
