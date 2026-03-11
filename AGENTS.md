@@ -175,8 +175,11 @@ Conventions:
 - Internal links are a core part of retrieval and note connection in this vault, not just Markdown syntax.
   - a unresolved link is allowed for future reference.
   - Inline Internal links (with real semantic meaning) is recommended when taking note e.g., `here is suppose to be a [[keyword]]`(although for better management, a `Related` block is needed)
+- Treat `[[...]]` as a cheap way to mark a potential semantic node, not as a commitment to create the target note immediately.
+  - If a term has semantic weight and may become a future retrieval or comparison point, prefer linking first.
+  - Distill it into a durable `knowledge/` note only after it starts recurring, needs contrast, or benefits from one stable explanation.
 - Notes should usually have at least one meaningful semantic connection (`[[...]]`) or be included in a hub / MOC.
-- Detailed note-linking heuristics, red-link policy, and hub guidance live in `obsidian-markdown`.
+- Detailed note-linking heuristics, red-link policy, and hub guidance live in `obsidian-markdown`. The full decision model for concept links, red links, distillation, and English term naming lives in [[areas/concept-linking-and-distillation|Concept Linking And Distillation]].
 
 ## Bases Rules (Archival Views)
 
