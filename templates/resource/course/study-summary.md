@@ -51,9 +51,7 @@ const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resou
 const targetFolder = locationKind === "custom"
   ? await promptValue("Target folder", `resources/${courseSlug}`)
   : defaultTargetFolder;
-const projectNote = locationKind === "projects"
-  ? await promptValue("Project note (wikilink target)", courseSlug)
-  : "";
+const homeNote = await promptValue("Course home note (wikilink target)", courseSlug);
 const source = await promptValue("Source link or note (optional)");
 const scope = await promptValue("What does this summary cover?");
 const extraTagsInput = await promptValue("Extra tags, comma-separated (optional)");
@@ -68,8 +66,10 @@ const extraTags = extraTagsInput
 
 const allTags = [...new Set(["course", "summary", courseSlug, ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
-const courseOverviewLink = courseName ? `[[${courseSlug}]]` : "[[course-overview]]";
-const projectYaml = projectNote ? `project: "${yamlEscape(`[[${projectNote}]]`)}"\n` : "";
+const courseOverviewLink = homeNote ? `[[${homeNote}]]` : (courseSlug ? `[[${courseSlug}]]` : "[[course-overview]]");
+const projectYaml = locationKind === "projects" && homeNote
+  ? `project: "${yamlEscape(`[[${homeNote}]]`)}"\n`
+  : "";
 const noteSlug = slugify(title);
 
 await tp.file.rename(noteSlug);

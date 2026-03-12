@@ -85,7 +85,11 @@ source: "${yamlEscape(source)}"
 >An entry point for the course, its notes, and its related study material.
 
 ## Overview
--
+- 
+
+## Scope
+
+- 
 
 ## Structure
 
@@ -93,7 +97,7 @@ source: "${yamlEscape(source)}"
 
 ![[bases/course-structure.base#Linked Notes]]
 
-## TODOs
+## Open Loops
 
 \`\`\`dataview
 TASK
