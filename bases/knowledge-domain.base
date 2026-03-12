@@ -1,0 +1,41 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("knowledge")
+    - file.path != this.path
+    - file.path != "knowledge/AGENTS.md"
+    - kind == "concept"
+    - 'if(indexes, indexes.contains(this.asLink()), false)'
+formulas:
+  days_since_update: '(now() - file.mtime).days.round(0)'
+properties:
+  file.name:
+    displayName: Note
+  tags:
+    displayName: Tags
+  source:
+    displayName: Source
+  file.mtime:
+    displayName: Updated
+  formula.days_since_update:
+    displayName: Days
+views:
+  - type: table
+    name: Domain Concepts
+    order:
+      - file.name
+      - tags
+      - source
+      - file.mtime
+      - formula.days_since_update
+  - type: table
+    name: Recently Updated
+    limit: 15
+    order:
+      - file.name
+      - source
+      - file.mtime
+      - formula.days_since_update
+    sort:
+      - property: file.mtime
+        direction: DESC
