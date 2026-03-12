@@ -34,19 +34,32 @@ Because of that, a practical vault convention should preserve workflow meaning, 
 
 ## Core Model
 
-This convention uses:
+This convention follows the full Conventional Commits shape when that format is required:
 
 ```text
-<type>(<scope>): <summary>
+<type>[optional scope][optional !]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
 Where:
 
 - `type` expresses the workflow action
-- `scope` expresses the workflow object, repository area, or knowledge container
-- `summary` expresses the outcome
+- `scope` optionally expresses the workflow object, repository area, or knowledge container
+- `description` expresses the outcome in the commit header
+- `body` and `footer(s)` remain available whenever explanation, breaking-change detail, or tracking metadata is needed
 
-The design goal is that commit history should let you reconstruct how knowledge moved through the vault over time.
+The design goal is that commit history should let you reconstruct how knowledge moved through the vault over time. The vault convention is about choosing meaningful `type` and `scope`, not about forcing all commits into a fixed one-line subject template.
+
+In practice, the common header in this vault is still:
+
+```text
+<type>(<scope>): <description>
+```
+
+But that is the usual case, not the whole rule. `scope` is optional, `!` is allowed, and body/footer sections should be used when they clarify intent.
 
 ## Quick Start
 
@@ -80,6 +93,20 @@ refactor: reorganize note graph
 
 feat: add automation script
 -> system(scripts): add frontmatter validation script
+
+docs!: revise repository workflow contract
+-> docs(repo)!: revise vault workflow contract
+```
+
+If more context is needed, keep the same header semantics and add a body/footer instead of overloading the header:
+
+```text
+organize(moc): rebuild machine learning navigation
+
+- split the previous hub into theory, systems, and practice
+- reconnect entry notes to the new hubs
+
+Refs: #vault-review
 ```
 
 ## Types
@@ -330,6 +357,10 @@ To keep commit history readable over time, follow these rules consistently:
 3. Prefer `organize` over `distill` when the main value is restructuring.
 4. Prefer `distill` over `capture` when the change reflects actual synthesis.
 5. Use `archive` only for explicit lifecycle transitions.
+6. Do not overfit everything into the header line.
+   If rationale, migration detail, or tracking references matter, use the commit body and footer.
+7. Treat header length as a practical guideline, not part of the syntax.
+   Prefer keeping the commit header within about 50 characters when practical, and wrap body lines around 72 characters if you use a body.
 
 ## Examples
 

@@ -9,22 +9,39 @@ For the longer rationale and design notes, see [[areas/vault-commit-convention|V
 Use:
 
 ```text
-<type>(<scope>): <summary>
+<type>[optional scope][optional !]: <description>
+
+[- optional body]
+
+[optional footer(s)]
 ```
 
 Rules:
 
 - use lowercase `type`
-- use short lowercase `scope`
-- start `summary` with a verb
-- keep `summary` concise and outcome-focused
+- make `scope` optional; use it when it improves retrieval
+- use short lowercase `scope` when present
+- start `description` with a verb
+- keep the header concise and outcome-focused
+- prefer keeping the commit header within about 50 characters when practical; if detail is needed, move it to the body
 - prefer one scope by default
 - use compound scopes only when one change genuinely spans two tightly coupled scopes
+- use body/footer when the change needs rationale, migration detail, or references
+
+The vault customizes Conventional Commits mainly through the meaning of `type` and recommended `scope` values. It does not require every commit to be compressed into a fixed subject-only pattern.
 
 Example:
 
 ```text
 organize(moc): rebuild ai learning map around systems and theory
+```
+
+Also valid:
+
+```text
+docs(repo)!: revise vault workflow contract
+
+Refs: #vault-review
 ```
 
 ## Quick Start
