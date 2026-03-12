@@ -82,30 +82,7 @@ indexes:
 
 ## Concept Notes
 
-Recommended structure:
-
-```md
-# 
-
-## Core
-
-## Connections
-- Parent: [[...]]
-- Related: [[...]]
-- Contrast: [[...]]
-
-## Boundaries
-- 
-
-## Examples
-- 
-
-## Source Trail
-- [[...]]
-
-## Next
-- [ ] 
-```
+Use the permanent note template at [templates/concept/permanent-note.md](/mnt/p/vault/templates/concept/permanent-note.md) as the default implementation.
 
 Minimum bar for a concept note in `knowledge/`:
 
@@ -113,6 +90,13 @@ Minimum bar for a concept note in `knowledge/`:
 - a stable title
 - a non-empty `Core`
 - at least one meaningful internal link
+
+Expected semantic sections:
+
+- `Core` for the stable explanation
+- `Connections` for the note's graph edges, typically through `Parent`, `Related`, or `Contrast`
+- optional sections such as `Boundaries`, `Examples`, and `Source Trail`
+- an optional `Next` section for follow-up maintenance work
 
 Allowed to remain incomplete:
 
