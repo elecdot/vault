@@ -97,5 +97,9 @@ ${scope || "Not specified."}
 ## Related
 - ${courseOverviewLink}
 ${related ? "\n" + bulletLinks(related) : ""}
+
+## Next
+- [ ] Distill one key takeaway into a concept or project note
+- [ ] Link this summary to a follow-up reading, lecture, or exercise note
 `;
 -%>

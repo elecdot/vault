@@ -121,7 +121,7 @@ ${core || "- "}
 - 
 
 ## Source Trail
-- ${source || ""}
+- ${source || "none"}
 
 ## Next
 - [ ] Add one concrete example
