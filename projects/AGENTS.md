@@ -21,6 +21,7 @@ projects/
   AGENTS.md
   <project-slug>/
     <project-slug>.md
+    workspace.md
     attachments/
     <supporting-note>.md
 ```
@@ -29,6 +30,7 @@ Rules:
 
 - Each active project should usually have its own folder.
 - The project home note should usually have the same slug as the folder.
+- Use `workspace.md` when the project needs a compact execution note that connects vault notes to an external codebase or operational workspace.
 - Keep project-specific working notes in the project folder rather than scattering them across the vault.
 - Use `attachments/` only for non-Markdown assets that belong to the project.
 - Do not store standalone Markdown notes under `attachments/`.
@@ -66,6 +68,7 @@ A note may stay in `projects/` after completion if it is part of the archived pr
 Common note types here:
 
 - `kind: "project"` for execution dashboards or plans with a clear completion condition
+- `kind: "project"` with `format: "workspace"` for the compact note that links the project folder to its external code repo or working environment
 - `kind: "index"` for local entry points, collections, or navigation pages inside the folder
 - `kind: "resource"` for project-bound reading notes, lecture notes, or source summaries
 - `kind: "meeting"` for conversations tied to the project
@@ -97,6 +100,7 @@ Rules:
 - use `format` to describe the home-note shape, such as `overview`, `plan`, or `dashboard`
 - use `status` for workflow state when the folder is being actively worked
 - use `area` when the effort clearly belongs to an ongoing responsibility
+- when both a home note and a workspace note exist, keep the home note focused on project overview or navigation, and let `workspace.md` carry the execution bridge to the external repo
 
 Decision rule:
 
@@ -122,12 +126,13 @@ Supporting notes should remain clearly subordinate to the project context.
 
 Typical shapes:
 
+- workspace note for the real code/project environment: `kind: "project"` with `format: "workspace"`
 - lecture or reading note: `kind: "resource"`
 - execution checklist: `format: "checklist"`
 - meeting record: `kind: "meeting"`
 - synthesis written only for this project: `kind: "resource"` or `kind: "index"` depending on function
 
-Use the `project` property when a supporting note benefits from an explicit graph connection to the project home note.
+Use the `project` property when a supporting note benefits from an explicit graph connection to the project's execution context.
 
 Example:
 
@@ -137,7 +142,8 @@ project: "[[crafting-interpreters]]"
 
 Local rule:
 
-- the `project` field may point to a home note whose `kind` is `index`; the field expresses execution context, not the target note's semantic class
+- prefer the project home note as the default `project` target, using the short home-note form such as `[[crafting-interpreters]]`
+- link to `workspace.md` explicitly only when you intentionally mean the operational workspace rather than the project home note
 
 ## Linking Rules Inside A Project
 
@@ -147,12 +153,15 @@ Preferred rule:
 
 - for notes inside the same project, use the project-local path form such as `[[crafting-interpreters/00-introduction]]`
 - do not include the top-level `projects/` prefix in normal project-local wikilinks
-- when linking to the project home note itself, use the short home-note form such as `[[crafting-interpreters]]`
+- when linking to the project home note, use the short home-note form such as `[[crafting-interpreters]]`
+- when linking to the workspace note specifically, use the explicit form such as `[[crafting-interpreters/workspace]]`
 
 Rationale:
 
 - keeping the project slug in the link helps distinguish notes from similarly named notes in other project folders
 - omitting the top-level PARA folder keeps links less coupled to later container moves
+- using the short home-note form keeps project links compact and readable while preserving project-folder portability
+- using the explicit workspace path only when needed keeps home-note and workspace semantics distinct
 
 ## Local Frontmatter Guidance
 

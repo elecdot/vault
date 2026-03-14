@@ -67,8 +67,25 @@ Avoid keeping non-template notes here. If you need examples or policy notes, pre
 - Design around the produced note's `kind` first.
 - Use `format` or a descriptive local pattern name only when it improves selection and reuse.
 - Keep frontmatter aligned with the vault's `kind` / `format` / `status` model.
+- Decide the note's semantic role before adding prompts, derived values, or template logic.
 - Use dynamic fields only where values genuinely vary between uses.
 - Prefer the smallest amount of template logic that still removes repeated manual work.
+
+## Template Contract
+
+Before expanding a template with Templater logic, classify important fields or sections as:
+
+- `prompted`: worth collecting immediately at note creation time
+- `derived`: reliably computed from stable context such as title, path, date, or known links
+- `manual`: better filled in after creation inside the rendered note
+- `fixed`: stable boilerplate that should not vary between uses
+
+Rules:
+
+- Prefer `derived` over `prompted` when the value can be computed reliably.
+- Prefer `manual` over `prompted` when the value is optional, subjective, or usually refined after note creation.
+- If a manual field matters for first-use completeness, prefer a lightweight `Next` step or day-0 reminder in the rendered note rather than another prompt.
+- Do not let implementation convenience weaken the note's `kind` / `format` / folder / graph-role decision.
 
 ## Templater Policy
 
@@ -80,6 +97,17 @@ Avoid keeping non-template notes here. If you need examples or policy notes, pre
 
 Detailed syntax and command rules remain in the `obsidian-template-authoring` skill and its references.
 
+## Output Discipline
+
+- A rendered note should be immediately usable and require minimal cleanup.
+- Keep visible boilerplate minimal; prefer structural placeholders over explanatory prose.
+- Keep empty-state patterns consistent within a template family.
+- Use `source` as a string when the template normally captures one primary source.
+- Use `source` as a list when the template normally captures multiple distinct sources or source types.
+- When a field supports multiple valid shapes, choose the simplest shape that matches the expected use of that template.
+- Family- or field-specific formatting conventions should live in local rules or nearby template precedent, not be improvised case by case.
+- Use `Next` or another lightweight day-0 reminder only when manual follow-up materially improves first-use completeness; do not force it into every template.
+
 ## Quality Bar
 
 A template is worth keeping when:
@@ -87,6 +115,7 @@ A template is worth keeping when:
 - the output note shape is stable enough to deserve standardization
 - the chosen folder is justified by `kind` first
 - the rendered note will match vault metadata and linking conventions
+- the semantic role and template contract are clear before automation details are added
 - Templater logic is readable and limited to what actually varies
 - the template reduces recurring friction rather than adding ceremony
 

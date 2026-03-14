@@ -16,10 +16,18 @@ Keep the main skill procedural and load references only when needed:
 
 1. **Inspect the target workflow**: identify what repeated task the template should support, what note it should produce, and whether the vault already has a nearby template or naming pattern to extend.
 2. **Choose the template subfolder**: prefer `templates/<kind>/` as the default home for a template. When one `kind` has multiple recurring expression shapes or stable template patterns, use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
-3. **Design the output note shape**: define the filename, target folder, frontmatter, main sections, expected wikilinks, and any prompts or computed values. Use the vault's `kind`/`format` model when structured properties are helpful, and avoid reintroducing the old overloaded `type` field.
-4. **Author with Templater**: use `tp.*` helpers for values that genuinely vary between runs. Prefer interpolation commands for simple output and execution blocks for prompts, branching, async work, or multi-step JavaScript.
-5. **Match vault conventions**: keep filenames readable and lowercase, store reusable templates under `templates/`, and align frontmatter and links with the vault rules in `AGENTS.md`.
-6. **Validate the rendered result**: confirm YAML validity, check that Templater expressions are correct, and make sure the produced note shape is plausible without additional manual cleanup.
+3. **Decide note semantics first**: determine the note's `kind`, optional `format`, intended folder, and graph role before designing prompts or automation. The template contract is downstream of note semantics; do not let implementation convenience weaken the semantic decision.
+4. **Define the template contract**: classify each important value or section as one of:
+   - `prompted`: unknown at creation time and worth capturing immediately
+   - `derived`: reliably computed from note context, path, date, or other stable inputs
+   - `manual`: better filled in after note creation inside the rendered note
+   - `fixed`: stable boilerplate that should remain constant across uses
+
+   Prefer `derived` over `prompted` when the value can be computed reliably. Prefer `manual` over `prompted` when the value is optional, subjective, or usually refined after creation.
+5. **Design the output note shape**: define the filename, target folder, frontmatter, main sections, expected wikilinks, and only the prompts or computed values justified by the contract above. Use the vault's `kind`/`format` model when structured properties are helpful, and avoid reintroducing the old overloaded `type` field.
+6. **Author with Templater**: use `tp.*` helpers for values that genuinely vary between runs. Prefer interpolation commands for simple output and execution blocks for prompts, branching, async work, or multi-step JavaScript.
+7. **Match vault conventions**: keep filenames readable and lowercase, store reusable templates under `templates/`, and align frontmatter and links with the vault rules in `AGENTS.md`.
+8. **Validate the rendered result**: confirm YAML validity, check that Templater expressions are correct, and make sure the produced note shape is plausible without additional manual cleanup.
 
 ## Foldering Strategy
 
@@ -39,13 +47,32 @@ Keep the main skill procedural and load references only when needed:
 - Avoid assuming nonstandard helper functions unless they are already documented in the vault or explicitly configured in Templater.
 - Treat dynamic commands and system commands as advanced features; use them only when the workflow actually depends on them.
 
+## Automation Boundary
+
+- Do not add a prompt unless it clearly saves repeated effort at creation time.
+- Prefer derived values over prompts when the value can be computed reliably from existing context.
+- Prefer manual placeholders when the value is usually refined after creation or is not worth interrupting the user for.
+- If a manual field is important for first-use completeness, add a lightweight `Next` step or day-0 reminder in the rendered note rather than forcing another prompt.
+- Avoid decorative scaffolding that often survives as noise in the final note.
+- If a template introduces a new field shape or body convention, check nearby templates and local `AGENTS.md` rules before finalizing it.
+
+## Output Discipline
+
+- Optimize for low cleanup after creation: a rendered note should be immediately usable.
+- Keep visible boilerplate minimal; prefer structural placeholders over explanatory prose.
+- Use one consistent empty-state pattern within a template family.
+- Prefer conventions that are stable across repeated use over one-off task-specific formatting.
+- When a field supports multiple valid shapes, choose the simplest shape that matches the expected use of that template, and leave family-specific conventions to local `AGENTS.md` or nearby template precedent.
+
 ## Quality Criteria
 
 - The chosen subfolder is justified by `kind` first, with `format` or a descriptive local pattern name used only as needed for retrieval.
+- The semantic decision (`kind` / `format` / folder / graph role) is clear before automation details are added.
 - Frontmatter stays valid after template expansion.
 - The template produces a note that matches the vault's note and linking conventions.
 - Dynamic fields are limited to values that genuinely vary between uses.
 - Templater code is simple, readable, and scoped to note creation rather than broad vault mutation.
+- Manual placeholders and day-0 reminders are used deliberately rather than as leftover boilerplate.
 
 ## Completion Checklist
 
@@ -54,6 +81,7 @@ Keep the main skill procedural and load references only when needed:
 - Templater syntax uses valid command forms such as `<% ... %>`, `<%* ... %>`, or other documented Templater tags only.
 - Internal references are written as wikilinks.
 - Frontmatter and section structure are still valid Markdown and YAML.
+- Prompts, derived values, and manual placeholders follow an explicit contract rather than being mixed ad hoc.
 
 ## References
 
