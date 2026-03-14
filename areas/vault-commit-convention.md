@@ -86,7 +86,7 @@ feat: add lecture notes
 -> capture(inbox): add notes from llm serving lecture
 
 feat: summarize paper
--> distill(literature): extract dqn paper claims into permanent notes
+-> distill(knowledge): extract dqn paper claims into permanent notes
 
 refactor: reorganize note graph
 -> organize(linking): connect exploration, exploitation, and bandit notes
@@ -154,8 +154,8 @@ Typical cases:
 Examples:
 
 ```text
-distill(literature): extract dqn paper claims into permanent notes
 distill(knowledge): turn course notes into atomic transformer notes
+distill(permanent): derive a standalone note on continuation-passing style
 ```
 
 ### `organize`
@@ -275,11 +275,15 @@ chore(repo): clean obsolete temporary files list
 
 Prefer scopes that reflect the vault workflow model instead of arbitrary labels.
 
+`scope` should capture the single primary retrieval axis for the commit, not every valid classification of the notes involved.
+
 Recommended scope families:
 
 ### PARA Containers
 
 Use a container scope when the commit is mainly about lifecycle placement:
+
+This is the default scope family for normal note work.
 
 ```text
 capture(inbox): ...
@@ -300,8 +304,9 @@ Recommended values:
 
 Use a graph-oriented scope when the commit is mainly about note form or graph structure:
 
+Use this family only when note form or maturity is the primary retrieval key and is more informative than the PARA container.
+
 ```text
-distill(literature): ...
 distill(permanent): ...
 organize(moc): ...
 organize(linking): ...
@@ -354,12 +359,17 @@ To keep commit history readable over time, follow these rules consistently:
    Do not mix new distilled notes, `.obsidian` changes, template edits, and archive moves unless there is a strong reason.
 2. Prefer workflow semantics over file-category semantics.
    Ask what happened in the knowledge lifecycle, not only which files changed.
-3. Prefer `organize` over `distill` when the main value is restructuring.
-4. Prefer `distill` over `capture` when the change reflects actual synthesis.
-5. Use `archive` only for explicit lifecycle transitions.
-6. Do not overfit everything into the header line.
+3. Prefer one primary scope over complete classification.
+   Do not try to encode container, note maturity, and topic all at once unless one axis would otherwise hide the meaning.
+4. Prefer PARA scope over Zettelkasten scope by default.
+   Reach for `projects`, `resources`, or `knowledge` before `literature` or `permanent` unless the Zettelkasten object is clearly the main retrieval key.
+5. Prefer `organize` over `distill` when the main value is restructuring.
+6. Prefer `distill` over `capture` when the change reflects actual synthesis.
+7. Use compound scopes only when one axis would materially hide the meaning.
+8. Use `archive` only for explicit lifecycle transitions.
+9. Do not overfit everything into the header line.
    If rationale, migration detail, or tracking references matter, use the commit body and footer.
-7. Treat header length as a practical guideline, not part of the syntax.
+10. Treat header length as a practical guideline, not part of the syntax.
    Prefer keeping the commit header within about 50 characters when practical, and wrap body lines around 72 characters if you use a body.
 
 ## Examples
@@ -374,7 +384,6 @@ capture(resources): import operating systems lecture notes
 Knowledge distillation:
 
 ```text
-distill(literature): extract dqn paper claims into permanent notes
 distill(knowledge): turn course notes into atomic transformer notes
 distill(llm): summarize speculative decoding tradeoffs
 ```
@@ -385,6 +394,13 @@ Knowledge organization:
 organize(moc): rebuild ai learning map around systems and theory
 organize(linking): connect bandit, exploration, and policy notes
 organize(projects): move capstone notes from inbox to projects
+```
+
+Zettelkasten-oriented examples:
+
+```text
+distill(permanent): derive a standalone note on continuation-passing style
+organize(linking): connect bandit, exploration, and policy notes
 ```
 
 Corrections:
@@ -430,6 +446,8 @@ organize(moc): rebuild machine learning navigation
 - reconnect entry notes to the new hubs
 - remove duplicate navigation paths
 ```
+
+Use the body to carry a secondary axis when it matters; do not force every dimension into the scope.
 
 ## Recommended Baseline
 

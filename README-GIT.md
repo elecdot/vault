@@ -25,7 +25,7 @@ Rules:
 - keep the header concise and outcome-focused
 - prefer keeping the commit header within about 50 characters when practical; if detail is needed, move it to the body
 - prefer one scope by default
-- use compound scopes only when one change genuinely spans two tightly coupled scopes
+- use compound scopes only when one axis would materially hide the meaning
 - use body/footer when the change needs rationale, migration detail, or references
 
 The vault customizes Conventional Commits mainly through the meaning of `type` and recommended `scope` values. It does not require every commit to be compressed into a fixed subject-only pattern.
@@ -76,8 +76,10 @@ Practical shortcut:
 
 Prefer scopes that reflect the vault workflow model.
 
-- PARA containers: `inbox`, `projects`, `areas`, `resources`, `knowledge`, `archive`
-- Zettelkasten objects: `fleeting`, `literature`, `permanent`, `moc`, `linking`, `index`
+`scope` is the primary retrieval axis for this commit, not a complete classification of the notes involved.
+
+- PARA containers: `inbox`, `projects`, `areas`, `resources`, `knowledge`, `archive` (default for normal note work)
+- Zettelkasten objects: `fleeting`, `literature`, `permanent`, `moc`, `linking`, `index` (use when note form, graph structure, or maturity is the clearer retrieval key)
 - system modules: `template`, `bases`, `agent`, `obsidian`, `zotero`, `scripts`, `repo`
 - topic scopes: use only when the topic itself is the clearest retrieval key
 
@@ -88,8 +90,8 @@ Knowledge intake and synthesis:
 ```text
 capture(inbox): add notes from llm serving lecture
 capture(resources): import rl lecture notes and references
-distill(literature): extract dqn paper claims into permanent notes
 distill(knowledge): turn course notes into atomic transformer notes
+distill(permanent): derive a standalone note on continuation-passing style
 ```
 
 Structure and graph work:
@@ -123,6 +125,8 @@ chore(repo): normalize line endings to lf
 
 - keep one commit focused on one workflow meaning
 - separate knowledge changes from system changes whenever possible
+- prefer one scope that captures the main retrieval axis
+- avoid combining PARA and ZK scopes unless both are genuinely required
 - prefer `organize` over `distill` when the main value is restructuring
 - prefer `distill` over `capture` when the change reflects actual synthesis
 - use `archive` only for explicit lifecycle transitions
