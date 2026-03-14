@@ -25,7 +25,7 @@ const slugify = (value) => {
 
 const bulletLinks = (value) => {
   if (!value) {
-    return "- ";
+    return "- none";
   }
 
   return value
