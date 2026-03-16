@@ -46,8 +46,6 @@ Typical signals:
 - the note tracks execution, decisions, meetings, milestones, or project-bound study material
 - the note is still too local or too provisional to deserve a durable place in `knowledge/`
 
-If a course or study collection is stored here, it should be because it is currently being used as an active project-driven work context, not merely because it is a course.
-
 ## Exit Rule
 
 Move or distill project material out of `projects/` when the project is no longer the right primary container.

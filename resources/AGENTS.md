@@ -41,8 +41,6 @@ Typical signals:
 - the note has some local synthesis, but not enough independence to act as a durable graph entry point
 - the note may later feed multiple projects or concept notes
 
-Course note sets should usually live here by default. Move a course into `projects/` only when the course is being used as an active project-driven work context.
-
 ## Exit Rule
 
 Move or distill a resource note out of `resources/` when source-preservation stops being its primary role.
