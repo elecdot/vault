@@ -1,9 +1,9 @@
 ---
-title: "Knowledge Index"
 tags: []
 kind: "index"
 format: "map"
-aliases: []
+aliases:
+  - "Knowledge Index"
 ---
 
 # Knowledge Index

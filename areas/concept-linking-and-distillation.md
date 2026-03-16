@@ -1,5 +1,4 @@
 ---
-title: "Concept Linking And Distillation"
 tags:
   - obsidian
   - knowledge-management
@@ -9,6 +8,7 @@ tags:
 kind: "area"
 format: "reference"
 aliases:
+  - "Concept Linking And Distillation"
   - "concept note decision model"
   - "red link and permanent note model"
   - "term naming and aliases"

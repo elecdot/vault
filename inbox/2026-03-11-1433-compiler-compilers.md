@@ -1,5 +1,4 @@
 ---
-title: "Compiler-Compilers"
 tags:
   - inspiration
   - chatgpt
@@ -10,7 +9,8 @@ kind: "resource"
 format: "capture"
 status: "fleeting"
 source: "ChatGPT"
-aliases: []
+aliases:
+  - "Compiler-Compilers"
 ---
 
 # Compiler-Compilers

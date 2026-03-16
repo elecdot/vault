@@ -1,5 +1,4 @@
 ---
-title: "Crafting Interpreters"
 tags:
   - course
   - crafting-interpreters
@@ -11,6 +10,8 @@ status: active
 source:
   - "[Web Page](https://craftinginterpreters.com)"
   - "[GitHub Code Repo](https://github.com/munificent/craftinginterpreters)"
+aliases:
+  - "Crafting Interpreters"
 ---
 
 # Crafting Interpreters

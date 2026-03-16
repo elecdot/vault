@@ -1,5 +1,4 @@
 ---
-title: "Vault Long-Term Maintenance"
 tags:
   - vault
   - knowledge-management
@@ -8,6 +7,7 @@ tags:
 kind: "area"
 format: "reference"
 aliases:
+  - "Vault Long-Term Maintenance"
   - "vault maintenance warnings"
   - "long-term vault governance"
 ---

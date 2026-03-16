@@ -1,5 +1,4 @@
 ---
-title: missing-semester-learning-strategy
 tags:
   - inspiration
   - chatgpt
@@ -10,7 +9,8 @@ kind: resource
 format: capture
 status: fleeting
 source: ChatGPT
-aliases: []
+aliases:
+  - "missing-semester-learning-strategy"
 ---
 
 # missing-semester-learning-strategy

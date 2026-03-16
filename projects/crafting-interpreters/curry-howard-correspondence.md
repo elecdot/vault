@@ -1,5 +1,4 @@
 ---
-title: Curry-Howard correspondence
 tags:
   - programming-language
   - proof-theory
@@ -7,7 +6,8 @@ kind: "concept"
 format: "card"
 status: "fleeting"
 source: "[Wiki](https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence)"
-aliases: []
+aliases:
+  - "Curry-Howard correspondence"
 ---
 
 # Curry-Howard correspondence

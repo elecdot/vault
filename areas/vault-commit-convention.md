@@ -1,5 +1,4 @@
 ---
-title: "Vault Commit Convention"
 tags:
   - git
   - obsidian
@@ -7,6 +6,7 @@ tags:
 kind: "area"
 format: "reference"
 aliases:
+  - "Vault Commit Convention"
   - "vault conventional commits"
 ---
 

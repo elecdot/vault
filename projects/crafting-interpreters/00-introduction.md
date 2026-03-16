@@ -1,5 +1,4 @@
 ---
-title: "00-introduction"
 tags:
   - course
   - lecture
@@ -10,6 +9,8 @@ kind: "resource"
 format: "note"
 project: "[[crafting-interpreters]]"
 source: "[Textbook](https://craftinginterpreters.com/introduction.html)"
+aliases:
+  - "00-introduction"
 ---
 
 # 00-introduction

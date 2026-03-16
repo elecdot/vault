@@ -1,5 +1,4 @@
 ---
-title: "Better Engineering Prompts"
 tags:
   - inspiration
   - chatgpt
@@ -9,7 +8,8 @@ kind: "resource"
 format: "capture"
 status: "fleeting"
 source: "ChatGPT"
-aliases: []
+aliases:
+  - "Better Engineering Prompts"
 ---
 
 # Better Engineering Prompts

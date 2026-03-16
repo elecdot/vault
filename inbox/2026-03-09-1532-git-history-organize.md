@@ -1,5 +1,4 @@
 ---
-title: "Git History Organize"
 tags:
   - inspiration
   - chatgpt
@@ -8,7 +7,8 @@ kind: "resource"
 format: "capture"
 status: "fleeting"
 source: "ChatGPT"
-aliases: []
+aliases:
+  - "Git History Organize"
 ---
 
 # Git History Organize
