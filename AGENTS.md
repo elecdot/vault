@@ -92,7 +92,6 @@ Recommended minimal set (use as needed; not all notes must fill everything):
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: ""        # concept / resource / project / area / person / meeting / daily / index, etc.
 format: ""      # note / outline / checklist / summary / reference / journal / template, etc.
@@ -100,7 +99,7 @@ status: ""      # fleeting / active / paused / done / archived (optional)
 area: ""        # area of responsibility (optional)
 project: ""     # related project (optional; prefer links or consistent strings)
 source: ""      # source (book/article/video/conversation; optional)
-aliases: []     # note aliases: friendlier display names; searchable (optional)
+aliases: []     # templates usually write the canonical display name first, then meaningful variants
 ---
 ```
 
@@ -108,7 +107,17 @@ Rules:
 
 - `kind/format/status/area/project/source` are for **structured classification and filtering** (Bases and search).
 - `tags` are **keywords/topics** (e.g. `openai`, `agent`, `coding`) for search and association. Avoid encoding “structured classification” into tags to reduce redundancy.
+- `aliases` are the **name-compatibility layer**: use them for the canonical human-readable note name, natural-language link normalization, Chinese names, abbreviations, and wording variants.
 - Quote strings that contain special characters to keep YAML valid.
+
+Naming rule (v1):
+
+- At template-creation time, collect one canonical human-readable name.
+- Use that canonical name for the note's H1 display text.
+- Write that canonical name into `aliases`, then append meaningful variants.
+- Derive the stable filename from `slugify(canonical name)`.
+- Treat the filename as the note's long-term graph identity after creation.
+- Do not add `title` as a default property for note naming; existing notes that already have `title` may keep it as historical metadata.
 
 Field conventions (v1):
 
@@ -145,6 +154,7 @@ Decision rule:
 ### Body (Connections First)
 
 - The opening should answer: what is this / why it matters / what it relates to.
+- For newly created notes, the H1 should usually match the canonical human-readable note name gathered at creation time.
 - Use `[[wikilink]]` for internal references; use Markdown links for external URLs only.
 - For notes of the same `kind`, use consistent templates (under `templates/`) to reduce missing sections and improve readability. When one `kind` has multiple recurring expression shapes or stable template patterns, use `format` or a descriptive subfolder name to refine template choice (*template library is still evolving*).
 

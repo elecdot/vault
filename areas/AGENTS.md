@@ -69,7 +69,6 @@ Recommended default:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: "area"
 format: "reference"
@@ -90,6 +89,7 @@ Rules:
 - `kind` should usually remain `area`
 - use `format` to describe whether the note is a reference, checklist, review frame, or other recurring operational shape
 - use `status` only when it adds real workflow meaning, such as `active`, `paused`, or `archived`
+- when a template creates an area note, use the canonical display name for the H1 and include it in `aliases`
 
 Expected sections for area notes usually include some combination of:
 

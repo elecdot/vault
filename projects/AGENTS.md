@@ -83,7 +83,6 @@ Recommended base:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: ""
 format: "overview"
@@ -100,6 +99,7 @@ Rules:
 - use `format` to describe the home-note shape, such as `overview`, `plan`, or `dashboard`
 - use `status` for workflow state when the folder is being actively worked
 - use `area` when the effort clearly belongs to an ongoing responsibility
+- when a template creates the home note, use the canonical project name for the H1 and include it in `aliases`
 - when both a home note and a workspace note exist, keep the home note focused on project overview or navigation, and let `workspace.md` carry the execution bridge to the external repo
 
 Decision rule:

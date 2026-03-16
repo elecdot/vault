@@ -173,11 +173,11 @@ This means:
 - entity-like targets often deserve notes earlier
 - concept-like targets often deserve links earlier than notes
 
-These examples assume vault-style canonical filenames with lowercase kebab-case, while display text may stay reader-friendly through link aliases such as `[[cpython|CPython]]`.
+These examples assume vault-style canonical filenames with lowercase kebab-case. At creation time, collect one canonical human-readable name, use it for the H1, write it into `aliases`, and let the filename remain the long-term graph identity. Display text may still stay reader-friendly through link aliases such as `[[cpython|CPython]]`.
 
 ## Naming Model For English Terms
 
-When naming a concept note, prefer the form that works best as a stable dictionary-style entry point. Other forms should go into `aliases`.
+When naming a concept note, prefer the form that works best as a stable dictionary-style entry point. Use that form as the canonical name, derive the filename from it, and store it in `aliases` alongside other meaningful variants.
 
 Priority:
 
@@ -187,15 +187,16 @@ Priority:
 
 Example:
 
+- canonicalName: `self-hosting`
 - filename: `self-hosting.md`
-- title: `self-hosting`
-- aliases: `self-hosted`, `self-host`, `self hosted`
+- H1: `self-hosting`
+- aliases: `self-hosting`, `self-hosted`, `self-host`, `self hosted`
 
 Why:
 
 - `self-hosting` behaves like a concept label
 - `self-hosted` behaves more like an adjective inside sentences
-- `self-host` is less stable as a standalone concept title
+- `self-host` is less stable as a standalone concept name
 
 The goal is not linguistic perfection. The goal is stable retrieval.
 
@@ -203,7 +204,7 @@ The goal is not linguistic perfection. The goal is stable retrieval.
 
 - prefer nouns or term-like `-ing` forms for concept notes
 - avoid adjective forms as the primary note name unless that form is clearly dominant
-- use `aliases` to absorb spelling variants, adjective forms, abbreviations, and spacing variants
+- use `aliases` to normalize natural-language links and absorb spelling variants, adjective forms, abbreviations, and spacing variants
 - choose the form you are most likely to remember consistently
 
 Examples:

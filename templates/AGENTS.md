@@ -76,7 +76,7 @@ Avoid keeping non-template notes here. If you need examples or policy notes, pre
 Before expanding a template with Templater logic, classify important fields or sections as:
 
 - `prompted`: worth collecting immediately at note creation time
-- `derived`: reliably computed from stable context such as title, path, date, or known links
+- `derived`: reliably computed from stable context such as canonical name, path, date, or known links
 - `manual`: better filled in after creation inside the rendered note
 - `fixed`: stable boilerplate that should not vary between uses
 
@@ -86,6 +86,8 @@ Rules:
 - Prefer `manual` over `prompted` when the value is optional, subjective, or usually refined after note creation.
 - If a manual field matters for first-use completeness, prefer a lightweight `Next` step or day-0 reminder in the rendered note rather than another prompt.
 - Do not let implementation convenience weaken the note's `kind` / `format` / folder / graph-role decision.
+- For name-bearing notes, collect one canonical name, derive the filename from it, use it as the H1, and write it into `aliases` before appending additional variants.
+- Low-friction capture or resource templates may derive `aliases` automatically from the canonical name instead of prompting for extra variants.
 
 ## Templater Policy
 

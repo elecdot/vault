@@ -75,7 +75,6 @@ Recommended default:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: "daily"
 format: "journal"
@@ -89,6 +88,7 @@ Rules:
 - use the date as the stable file identity
 - use `format` only when it clarifies the daily note's specific role, such as `review` or `planning`
 - use `status` sparingly; a daily note usually does not need one
+- if a daily template uses a canonical display name beyond the date, use it for the H1 and include it in `aliases`
 
 Expected sections for daily notes usually include some combination of:
 

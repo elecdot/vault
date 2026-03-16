@@ -74,7 +74,6 @@ Recommended default:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: "resource"
 format: ""
@@ -100,6 +99,7 @@ Rules:
 - use `status` only when it adds workflow value, such as `fleeting`, `active`, or `archived`
 - use `project` only when a source note is materially tied to one active project
 - use `source` to preserve the actual origin, preferably as a URL or a link to a source-tracking note
+- when a template creates the note, use the canonical display name for the H1 and include it in `aliases`
 - do not introduce a parallel `resources` field just to mirror the container; folder placement and ordinary links already express that context
 
 Expected sections for resource notes usually include some combination of:

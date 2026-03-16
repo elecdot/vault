@@ -4,12 +4,12 @@ Properties use YAML frontmatter at the start of a note:
 
 ```yaml
 ---
-title: My Note Title
 date: 2024-01-15
 tags:
   - project
   - important
 aliases:
+  - Project Alpha
   - My Note
   - Alternative Name
 cssclasses:
@@ -25,7 +25,7 @@ due: 2024-02-01T14:30:00
 
 | Type | Example |
 |------|---------|
-| Text | `title: My Title` |
+| Text | `summary: My summary` |
 | Number | `rating: 4.5` |
 | Checkbox | `completed: true` |
 | Date | `date: 2024-01-15` |
@@ -36,8 +36,10 @@ due: 2024-02-01T14:30:00
 ## Default Properties
 
 - `tags` - Note tags (searchable, shown in graph view)
-- `aliases` - Alternative names for the note (used in link suggestions)
+- `aliases` - Alternative names for the note (used in link suggestions and natural-language link normalization)
 - `cssclasses` - CSS classes applied to the note in reading/editing view
+
+`title` is not a built-in naming property. It is only an ordinary custom text field unless a vault explicitly chooses to use it.
 
 ## Tags
 

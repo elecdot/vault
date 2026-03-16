@@ -46,8 +46,14 @@ Whitespace control forms from the official docs:
 ## Example
 
 ```md
+<%*
+const canonicalName = await tp.system.prompt("Canonical name", tp.file.title);
+const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+const aliases = [canonicalName];
+%>
 ---
-title: '<% tp.file.title %>'
+aliases:
+<% aliases.map((alias) => `  - "${yamlEscape(alias)}"`).join("\n") %>
 kind: "daily"
 format: "journal"
 status: "active"
@@ -58,7 +64,7 @@ tags:
 
 << [[<% tp.date.now("YYYY-MM-DD", -1) %>]] | [[<% tp.date.now("YYYY-MM-DD", 1) %>]] >>
 
-# <% tp.file.title %>
+# <% canonicalName %>
 
 ## Focus
 <%* const focus = await tp.system.prompt("Focus for today") %>

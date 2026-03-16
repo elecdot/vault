@@ -81,7 +81,6 @@ When using a capture template, the recommended default is:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: "resource"
 format: "capture"
@@ -97,6 +96,8 @@ Rules:
 - if metadata is omitted during capture, add it during triage rather than blocking note creation
 - `status: "fleeting"` is the normal default when status is used in `inbox/`
 - keep tags sparse; the capture should not become filing work
+- if a capture template asks for a canonical name, use it for the H1 and auto-write it into `aliases`; the timestamped filename remains the long-term file identity
+- do not add extra alias prompts to low-friction capture templates unless variant names are materially important at capture time
 
 ## Writing Rules
 
@@ -107,7 +108,7 @@ Good capture usually includes:
 - what this is
 - why it seemed worth saving
 - source or context if known
-- at least one clue for future retrieval, such as tags, links, or a descriptive title
+- at least one clue for future retrieval, such as tags, links, aliases, or a descriptive opening
 
 Allowed in `inbox/`:
 

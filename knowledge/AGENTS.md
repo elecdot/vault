@@ -50,7 +50,6 @@ Recommended local frontmatter for concept notes:
 
 ```yaml
 ---
-title: ""
 tags: []
 kind: "concept"
 format: "note"
@@ -77,7 +76,8 @@ indexes:
 ## Naming
 
 - Use stable English kebab-case filenames for concept notes.
-- Use `aliases` for Chinese names, abbreviations, and wording variants.
+- At creation time, collect one canonical human-readable concept name, use it as the H1, and write it into `aliases`.
+- Use `aliases` for natural-language link normalization, Chinese names, abbreviations, and wording variants.
 - Avoid casual renames once a note is acting as a graph entry point.
 
 ## Concept Notes
@@ -87,7 +87,7 @@ Use the permanent note template at [templates/concept/permanent-note.md](/mnt/p/
 Minimum bar for a concept note in `knowledge/`:
 
 - `kind: "concept"`
-- a stable title
+- a stable canonical name expressed through filename, H1, and `aliases`
 - a non-empty `Core`
 - at least one meaningful internal link
 
