@@ -15,7 +15,7 @@ Keep the main skill procedural and load references only when needed:
 ## Workflow
 
 1. **Inspect the target workflow**: identify what repeated task the template should support, what note it should produce, and whether the vault already has a nearby template or naming pattern to extend.
-2. **Choose the template subfolder**: prefer `templates/<kind>/` as the default home for a template. When one `kind` has multiple recurring expression shapes or stable template patterns, use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
+2. **Choose the template home**: decide whether the template is a general cross-kind entry point or a kind-specific family, and follow the local `templates/AGENTS.md` placement rules.
 3. **Decide note semantics first**: determine the note's `kind`, optional `format`, intended folder, and graph role before designing prompts or automation. The template contract is downstream of note semantics; do not let implementation convenience weaken the semantic decision.
 4. **Define the template contract**: classify each important value or section as one of:
    - `prompted`: unknown at creation time and worth capturing immediately
@@ -29,13 +29,13 @@ Keep the main skill procedural and load references only when needed:
 7. **Match vault conventions**: keep filenames readable and lowercase, store reusable templates under `templates/`, and align frontmatter and links with the vault rules in `AGENTS.md`.
 8. **Validate the rendered result**: confirm YAML validity, check that Templater expressions are correct, and make sure the produced note shape is plausible without additional manual cleanup.
 
-## Foldering Strategy
+## Placement Strategy
 
-- Prefer `templates/<kind>/` as the stable default organization.
-- Use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one `kind` has multiple high-frequency template families.
-- Keep filenames specific to the produced note shape, for example `summary.md`, `outline.md`, `reference.md`, or `weekly-review.md`.
-- If the right second-level subdivision is unclear, prefer a flatter `templates/<kind>/` layout until repeated usage justifies more structure.
-- If a template could plausibly fit multiple places, choose the folder that best matches the note's `kind`; use the filename or second-level folder to express the format or local pattern difference.
+- Follow the local `templates/AGENTS.md` rules to decide whether a template belongs at the `templates/` root or under `templates/<kind>/`.
+- Use the root for general cross-kind templates whose body structure stays substantially the same across multiple kinds.
+- Use `templates/<kind>/` when a template primarily serves one semantic note kind.
+- Add a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one kind has multiple stable, high-frequency template families.
+- Keep filenames specific to the produced note shape, for example `note.md`, `summary.md`, `outline.md`, `reference.md`, or `weekly-review.md`.
 
 ## Templater Authoring Rules
 
@@ -66,7 +66,7 @@ Keep the main skill procedural and load references only when needed:
 
 ## Quality Criteria
 
-- The chosen subfolder is justified by `kind` first, with `format` or a descriptive local pattern name used only as needed for retrieval.
+- The chosen template home follows the local placement rules and is justified either as a general cross-kind entry point or as a kind-specific family.
 - The semantic decision (`kind` / `format` / folder / graph role) is clear before automation details are added.
 - Frontmatter stays valid after template expansion.
 - The template produces a note that matches the vault's note and linking conventions.
@@ -76,7 +76,7 @@ Keep the main skill procedural and load references only when needed:
 
 ## Completion Checklist
 
-- Template saved under `templates/` and usually under a `kind` subfolder, optionally with one deeper `format` or descriptive-pattern subdivision.
+- Template saved under `templates/` in a location consistent with the local placement rules.
 - Filename is readable and stable.
 - Templater syntax uses valid command forms such as `<% ... %>`, `<%* ... %>`, or other documented Templater tags only.
 - Internal references are written as wikilinks.

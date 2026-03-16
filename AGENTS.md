@@ -156,16 +156,18 @@ Decision rule:
 - The opening should answer: what is this / why it matters / what it relates to.
 - For newly created notes, the H1 should usually match the canonical human-readable note name gathered at creation time.
 - Use `[[wikilink]]` for internal references; use Markdown links for external URLs only.
-- For notes of the same `kind`, use consistent templates (under `templates/`) to reduce missing sections and improve readability. When one `kind` has multiple recurring expression shapes or stable template patterns, use `format` or a descriptive subfolder name to refine template choice (*template library is still evolving*).
+- For notes of the same `kind`, use consistent templates (under `templates/`) to reduce missing sections and improve readability. General cross-kind templates may live at the `templates/` root; kind-specific families may use `templates/<kind>/` and one deeper subdivision when that materially improves selection.
 
 ### Templates (v1)
 
 - Store all templates under `templates/`.
-- Organize templates by `kind` by default, for example `templates/concept/`, `templates/resource/`, `templates/project/`, or `templates/daily/`.
+- The `templates/` root may host general templates reused across multiple kinds with substantially the same note body.
+- Use `templates/<kind>/` when a template primarily serves one semantic note kind, for example `templates/concept/`, `templates/resource/`, `templates/project/`, or `templates/daily/`.
 - When one `kind` contains multiple high-frequency expression shapes or stable template patterns, refine with a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
 - Do not add deeper nesting unless the additional subdivision clearly improves retrieval and template selection.
 - Keep filenames readable and specific to the produced note shape, for example `summary.md`, `outline.md`, `reference.md`, or `weekly-review.md`.
-- Each important `kind` or recurring `format` should have at least one usable template; create notes from a template when one fits.
+- Keep root-level templates for cross-kind default entry templates rather than as a catch-all for uncategorized files.
+- Each important `kind` or recurring general `format` should have at least one usable template; create notes from a template when one fits.
 - `workflow` is not a formal note property or taxonomy axis in this vault. If `format` is not sufficient for template subdivision, use a descriptive subfolder name only as a local template-library convention.
 - If no template fits, prefer extracting a new template pattern.
 

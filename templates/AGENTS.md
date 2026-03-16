@@ -19,6 +19,7 @@ Default structure:
 ```vault
 templates/
   AGENTS.md
+  <general-template>.md
   <kind>/
     <template>.md
   <kind>/<format-or-pattern>/
@@ -27,9 +28,11 @@ templates/
 
 Rules:
 
-- Prefer `templates/<kind>/` as the default organization.
+- Prefer `templates/<kind>/` when a template primarily serves one semantic note kind.
+- The `templates/` root may host general templates that are reused across multiple kinds and do not justify a kind-specific home.
+- Treat the root as the library's general template layer, not as a catch-all for uncategorized files.
 - Use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one `kind` has multiple stable, high-frequency template families.
-- Keep filenames readable and specific to the note shape they produce, such as `summary.md`, `reference.md`, or `weekly-review.md`.
+- Keep filenames readable and specific to the note shape they produce, such as `note.md`, `summary.md`, `reference.md`, or `weekly-review.md`.
 - Do not add deeper nesting unless it clearly improves retrieval and template selection.
 
 ## Entry Rule
@@ -64,38 +67,32 @@ Avoid keeping non-template notes here. If you need examples or policy notes, pre
 
 ## Template Design Principles
 
-- Design around the produced note's `kind` first.
-- Use `format` or a descriptive local pattern name only when it improves selection and reuse.
-- Keep frontmatter aligned with the vault's `kind` / `format` / `status` model.
-- Decide the note's semantic role before adding prompts, derived values, or template logic.
-- Use dynamic fields only where values genuinely vary between uses.
-- Prefer the smallest amount of template logic that still removes repeated manual work.
+- Design around the produced note's semantic role first.
+- Keep `kind` as the core rule for note semantics and for templates that primarily serve one kind.
+- Use the root level for broadly reusable templates whose body structure stays substantially the same across multiple kinds.
+- Use subfolders only when they reflect a distinct semantic contract, workflow, or retrieval benefit.
+- Do not create kind-specific variants when the difference is only a few frontmatter defaults, prompts, or destination choices.
+- Prefer the simplest organization that keeps template selection predictable.
 
-## Template Contract
+## Placement Rule
 
-Before expanding a template with Templater logic, classify important fields or sections as:
+Choose a template home in this order:
 
-- `prompted`: worth collecting immediately at note creation time
-- `derived`: reliably computed from stable context such as canonical name, path, date, or known links
-- `manual`: better filled in after creation inside the rendered note
-- `fixed`: stable boilerplate that should not vary between uses
+1. If the template is a general entry point reused across multiple kinds with substantially the same note body, place it in `templates/`.
+2. If the template primarily serves one semantic kind, place it under `templates/<kind>/`.
+3. If one kind accumulates several stable template families, add one deeper subdivision only when it improves retrieval.
 
-Rules:
+A template deserves kind-specific placement only when at least one of the following is materially different from a general version:
 
-- Prefer `derived` over `prompted` when the value can be computed reliably.
-- Prefer `manual` over `prompted` when the value is optional, subjective, or usually refined after note creation.
-- If a manual field matters for first-use completeness, prefer a lightweight `Next` step or day-0 reminder in the rendered note rather than another prompt.
-- Do not let implementation convenience weaken the note's `kind` / `format` / folder / graph-role decision.
-- For name-bearing notes, collect one canonical name, derive the filename from it, use it as the H1, and write it into `aliases` before appending additional variants.
-- Low-friction capture or resource templates may derive `aliases` automatically from the canonical name instead of prompting for extra variants.
+- its required sections
+- its required metadata
+- its post-creation workflow
 
 ## Templater Policy
 
-- Use Templater for prompts, computed links, metadata, dates, conditionals, and note scaffolding logic.
-- Prefer documented APIs such as `tp.file`, `tp.date`, `tp.system`, and `tp.frontmatter`.
+- Use Templater only where prompts, computed values, or stable scaffolding materially reduce repeated work.
 - Prefer small, readable scripts over large embedded programs.
 - Keep JavaScript scoped to note creation rather than broad vault mutation.
-- Treat system commands and advanced dynamic actions as exceptional, not default template behavior.
 
 Detailed syntax and command rules remain in the `obsidian-template-authoring` skill and its references.
 
@@ -104,18 +101,15 @@ Detailed syntax and command rules remain in the `obsidian-template-authoring` sk
 - A rendered note should be immediately usable and require minimal cleanup.
 - Keep visible boilerplate minimal; prefer structural placeholders over explanatory prose.
 - Keep empty-state patterns consistent within a template family.
-- Use `source` as a string when the template normally captures one primary source.
-- Use `source` as a list when the template normally captures multiple distinct sources or source types.
-- When a field supports multiple valid shapes, choose the simplest shape that matches the expected use of that template.
-- Family- or field-specific formatting conventions should live in local rules or nearby template precedent, not be improvised case by case.
-- Use `Next` or another lightweight day-0 reminder only when manual follow-up materially improves first-use completeness; do not force it into every template.
+- Decide the note's semantic role before adding prompts, derived values, or template logic.
+- Prefer the smallest amount of template logic that still removes repeated manual work.
 
 ## Quality Bar
 
 A template is worth keeping when:
 
 - the output note shape is stable enough to deserve standardization
-- the chosen folder is justified by `kind` first
+- the chosen template home is justified either as a general cross-kind entry point or as a kind-specific family
 - the rendered note will match vault metadata and linking conventions
 - the semantic role and template contract are clear before automation details are added
 - Templater logic is readable and limited to what actually varies
@@ -124,9 +118,10 @@ A template is worth keeping when:
 ## Library Governance
 
 - New templates should earn their place through repeated use, not speculative completeness.
-- Prefer extracting a new template pattern after repeated reuse rather than creating many templates upfront.
-- When two templates differ only trivially, prefer one template with a clearer prompt or a better default shape.
-- If a template could plausibly fit multiple places, choose the folder that best matches the produced note's `kind`.
+- Root-level templates are reserved for cross-kind default entry templates.
+- Do not use the root as a temporary holding area for templates that have not been classified.
+- When several root templates accumulate around one stable semantic family or workflow, extract a subfolder only if that grouping clearly improves retrieval and selection.
+- If two templates differ only trivially, prefer one clearer general template over multiple near-duplicates.
 
 ## Relationship To Other Layers
 
