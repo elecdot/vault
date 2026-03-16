@@ -80,7 +80,7 @@ Prefer scopes that reflect the vault workflow model.
 
 - PARA containers: `inbox`, `projects`, `areas`, `resources`, `knowledge`, `archive` (default for normal note work)
 - Zettelkasten objects: `fleeting`, `literature`, `permanent`, `moc`, `linking`, `index` (use when note form, graph structure, or maturity is the clearer retrieval key)
-- system modules: `template`, `bases`, `agent`, `obsidian`, `zotero`, `scripts`, `repo`
+- system modules: `template`, `bases`, `agent`, `obsidian`, `zotero`, `scripts`, `repo`, `metadata`
 - topic scopes: use only when the topic itself is the clearest retrieval key
 
 ## Examples

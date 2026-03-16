@@ -215,6 +215,7 @@ Examples:
 system(template): refine study summary template
 system(bases): add inbox triage view for notes missing kind
 system(agent): update archiving workflow guidance
+system(metadata): refine alias migration rules
 system(obsidian): enable git and dataview plugins
 system(scripts): add frontmatter validation script
 ```
@@ -341,6 +342,7 @@ Recommended values:
 - `zotero`
 - `scripts`
 - `repo`
+- `metadata`
 
 ### Topic Scope
 
