@@ -41,10 +41,23 @@ const bulletLinks = (value) => {
     .map((item) => `- [[${item}]]`)
     .join("\n");
 };
+const listItems = (value) => value
+  ? value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean)
+  : [];
+const yamlList = (items) => {
+  if (!items.length) {
+    return " []";
+  }
+
+  return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
+};
 
 const courseName = await promptValue("Course name");
-const title = courseName || `course overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
-const courseSlug = slugify(courseName || title);
+const canonicalName = courseName || `course overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const courseSlug = slugify(canonicalName);
 const locationKind = await chooseValue("Store under", ["resources", "projects", "custom"], "resources");
 const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
 const targetFolder = locationKind === "custom"
@@ -52,6 +65,7 @@ const targetFolder = locationKind === "custom"
   : defaultTargetFolder;
 const source = await promptValue("Primary source link or note (optional)");
 const extraTagsInput = await promptValue("Extra tags, comma-separated (optional)");
+const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
 const related = await promptValue("Related note names, comma-separated (optional)");
 
 const extraTags = extraTagsInput
@@ -63,7 +77,8 @@ const extraTags = extraTagsInput
 
 const allTags = [...new Set(["course", courseSlug, ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
-const noteSlug = slugify(title);
+const aliases = [...new Set([canonicalName, ...listItems(aliasesInput)])];
+const noteSlug = slugify(canonicalName);
 
 await tp.file.rename(noteSlug);
 if (targetFolder) {
@@ -71,16 +86,16 @@ if (targetFolder) {
 }
 
 tR += `---
-title: "${yamlEscape(title)}"
 tags:
 ${tagYaml}
 kind: "index"
 format: "overview"
 status: "active"
 source: "${yamlEscape(source)}"
+aliases:${yamlList(aliases)}
 ---
 
-# ${title}
+# ${canonicalName}
 
 >An entry point for the course, its notes, and its related study material.
 

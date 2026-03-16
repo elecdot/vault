@@ -33,9 +33,8 @@ const quoteCallout = (text) => {
 };
 
 const bulletLine = (value, formatter = (item) => item) => `- ${value ? formatter(value) : "none"}`;
-
-const rawTitle = await promptValue("Inspiration title / cue phrase");
-const captureTitle = rawTitle || `chatgpt inspiration ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const canonicalNameInput = await promptValue("Canonical name / cue phrase");
+const canonicalName = canonicalNameInput || `chatgpt inspiration ${tp.date.now("YYYY-MM-DD HH:mm")}`;
 const whyItMatters = await promptValue("Why does this matter?");
 const questionPrompt = await promptValue("What question produced this answer?");
 const excerpt = await promptValue("Paste the useful ChatGPT excerpt", "", true);
@@ -52,7 +51,8 @@ const extraTags = extraTagsInput
 
 const allTags = [...new Set(["inspiration", "chatgpt", ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
-const filename = `${tp.date.now("YYYY-MM-DD-HHmm")}-${slugify(captureTitle)}`;
+const aliases = [canonicalName];
+const filename = `${tp.date.now("YYYY-MM-DD-HHmm")}-${slugify(canonicalName)}`;
 const relatedBlock = related
   ? related
       .split(",")
@@ -65,17 +65,17 @@ const relatedBlock = related
 await tp.file.move(`inbox/${filename}`);
 
 tR += `---
-title: "${yamlEscape(captureTitle)}"
 tags:
 ${tagYaml}
 kind: "resource"
 format: "capture"
 status: "fleeting"
 source: "ChatGPT"
-aliases: []
+aliases:
+${aliases.map((alias) => `  - "${yamlEscape(alias)}"`).join("\n")}
 ---
 
-# ${captureTitle}
+# ${canonicalName}
 
 ## Why
 ${whyItMatters || "Not specified."}

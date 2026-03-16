@@ -29,6 +29,7 @@ const listItems = (value) => value
       .map((item) => item.trim())
       .filter(Boolean)
   : [];
+const uniqueItems = (items) => [...new Set(items.filter(Boolean))];
 
 const normalizeIndexLink = (value) => {
   const trimmed = value.trim().replace(/^\[\[|\]\]$/g, "");
@@ -66,8 +67,8 @@ const yamlList = (items, mapper = (item) => item) => {
 const wikilinkList = (items) => yamlList(items, (item) => `"${yamlEscape(item)}"`);
 const quotedList = (items) => yamlList(items, (item) => `"${yamlEscape(item)}"`);
 
-const titleInput = await promptValue("Concept title");
-const title = titleInput || tp.file.title || `concept ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const canonicalNameInput = await promptValue("Canonical name");
+const canonicalName = canonicalNameInput || tp.file.title || `concept ${tp.date.now("YYYY-MM-DD HH:mm")}`;
 const core = await promptValue("Core statement (2-6 sentences)", "", true);
 const indexesInput = await promptValue("Index notes, comma-separated (optional)", "knowledge/indexes/");
 const parent = await promptValue("Parent note (optional)");
@@ -77,7 +78,7 @@ const tagsInput = await promptValue("Tags, comma-separated (optional)");
 const source = await promptValue("Source note or URL (optional)");
 const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
 
-const aliases = listItems(aliasesInput);
+const aliases = uniqueItems([canonicalName, ...listItems(aliasesInput)]);
 const tags = listItems(tagsInput).map((tag) => tag.toLowerCase().replace(/\s+/g, "-"));
 const indexNotes = listItems(indexesInput).map(normalizeIndexLink).filter(Boolean);
 const relatedLinks = listItems(related).map((item) => `[[${item}]]`).join(", ");
@@ -90,12 +91,11 @@ if (!hasMeaningfulConnection) {
   return;
 }
 
-const noteSlug = slugify(title);
+const noteSlug = slugify(canonicalName);
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/${noteSlug}`);
 
 tR += `---
-title: "${yamlEscape(title)}"
 tags:${yamlList(tags)}
 kind: "concept"
 format: "note"
@@ -104,7 +104,7 @@ source: "${yamlEscape(source)}"
 indexes:${wikilinkList(indexNotes)}
 ---
 
-# ${title}
+# ${canonicalName}
 
 ## Core
 ${core || "- "}

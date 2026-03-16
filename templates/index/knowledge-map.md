@@ -41,16 +41,17 @@ const yamlList = (items) => {
     return " []";
   }
 
-  return `\n${items.map((item) => `  - ${item}`).join("\n")}`;
+  return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
 };
 
-const titleInput = await promptValue("Index title / domain");
-const title = titleInput || tp.file.title || `knowledge map ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const canonicalNameInput = await promptValue("Canonical name / domain");
+const canonicalName = canonicalNameInput || tp.file.title || `knowledge map ${tp.date.now("YYYY-MM-DD HH:mm")}`;
 const scope = await promptValue("Scope", "", true);
 const why = await promptValue("Why does this domain matter?", "", true);
 const startingPoints = await promptValue("Starting points, comma-separated (optional)");
 const distinctions = await promptValue("Key distinctions, one per line (optional)", "", true);
 const tagsInput = await promptValue("Tags, comma-separated (optional)");
+const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
 
 const tags = tagsInput
   ? tagsInput
@@ -58,20 +59,20 @@ const tags = tagsInput
       .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
       .filter(Boolean)
   : [];
+const aliases = [...new Set([canonicalName, ...aliasesInput.split(",").map((item) => item.trim()).filter(Boolean)])];
 
-const noteSlug = slugify(title);
+const noteSlug = slugify(canonicalName);
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/indexes/${noteSlug}`);
 
 tR += `---
-title: "${yamlEscape(title)}"
 tags:${yamlList(tags)}
 kind: "index"
 format: "map"
-aliases: []
+aliases:${yamlList(aliases)}
 ---
 
-# ${title}
+# ${canonicalName}
 
 ## Scope
 ${scope || "- "}

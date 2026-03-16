@@ -41,10 +41,17 @@ const bulletLinks = (value) => {
     .map((item) => `- [[${item}]]`)
     .join("\n");
 };
+const yamlList = (items) => {
+  if (!items.length) {
+    return " []";
+  }
+
+  return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
+};
 
 const courseName = await promptValue("Course name");
-const summaryTitle = await promptValue("Summary title");
-const title = summaryTitle || `${courseName || "course"} study summary`;
+const summaryName = await promptValue("Canonical summary name");
+const canonicalName = summaryName || `${courseName || "course"} study summary`;
 const courseSlug = slugify(courseName || "course");
 const locationKind = await chooseValue("Store under", ["resources", "projects", "custom"], "resources");
 const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
@@ -70,7 +77,8 @@ const courseOverviewLink = homeNote ? `[[${homeNote}]]` : (courseSlug ? `[[${cou
 const projectYaml = locationKind === "projects" && homeNote
   ? `project: "${yamlEscape(`[[${homeNote}]]`)}"\n`
   : "";
-const noteSlug = slugify(title);
+const aliases = [canonicalName];
+const noteSlug = slugify(canonicalName);
 
 await tp.file.rename(noteSlug);
 if (targetFolder) {
@@ -78,15 +86,15 @@ if (targetFolder) {
 }
 
 tR += `---
-title: "${yamlEscape(title)}"
 tags:
 ${tagYaml}
 kind: "resource"
 format: "summary"
 ${projectYaml}source: "${yamlEscape(source)}"
+aliases:${yamlList(aliases)}
 ---
 
-# ${title}
+# ${canonicalName}
 
 ## Scope
 ${scope || "Not specified."}

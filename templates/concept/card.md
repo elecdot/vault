@@ -5,6 +5,13 @@ const promptValue = async (label, fallback = "", multiline = false) => {
 };
 
 const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+const listItems = (value) => value
+  ? value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean)
+  : [];
+const uniqueItems = (items) => [...new Set(items.filter(Boolean))];
 
 const bulletLinks = (value) => {
   if (!value) {
@@ -19,11 +26,12 @@ const bulletLinks = (value) => {
     .join("\n");
 };
 
-const titleInput = await promptValue("Card title / concept");
-const title = titleInput || tp.file.title || `concept-card-${tp.date.now("YYYY-MM-DD-HH-mm")}`;
+const canonicalNameInput = await promptValue("Canonical name / concept");
+const canonicalName = canonicalNameInput || tp.file.title || `concept-card-${tp.date.now("YYYY-MM-DD-HH-mm")}`;
 const coreIdea = await promptValue("Core idea / tip", "", true);
 const source = await promptValue("Source note, book, class, or URL (optional)");
 const extraTagsInput = await promptValue("Tags, comma-separated (optional)");
+const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
 const related = await promptValue("Related note names, comma-separated (optional)");
 
 const extraTags = extraTagsInput
@@ -36,19 +44,20 @@ const extraTags = extraTagsInput
 const allTags = [...new Set(["concept", ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
 const relatedBlock = bulletLinks(related);
+const aliases = uniqueItems([canonicalName, ...listItems(aliasesInput)]);
 
 tR += `---
-title: "${yamlEscape(title)}"
 tags:
 ${tagYaml}
 kind: "concept"
 format: "card"
 status: "fleeting"
 source: "${yamlEscape(source)}"
-aliases: []
+aliases:
+${aliases.map((alias) => `  - "${yamlEscape(alias)}"`).join("\n")}
 ---
 
-# ${title}
+# ${canonicalName}
 
 > A small reusable idea, tip, or side concept worth revisiting.
 

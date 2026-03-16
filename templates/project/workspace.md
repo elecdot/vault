@@ -30,6 +30,12 @@ const yamlList = (items) => {
 
   return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
 };
+const listItems = (value) => value
+  ? value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean)
+  : [];
 
 const bulletLinks = (value) => {
   if (!value) {
@@ -77,6 +83,7 @@ const projectSlug = await promptValue("Project slug", defaultSlug) || defaultSlu
 const localRepoPath = await promptValue("Local repo path (optional)");
 const remoteRepo = await promptValue("Remote repo URL (optional)");
 const tagsInput = await promptValue("Tags, comma-separated (optional)");
+const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
 const relatedInput = await promptValue("Related note names, comma-separated (optional)");
 
 const folderPath = `projects/${projectSlug}`;
@@ -95,12 +102,13 @@ const sourceItems = [
   markdownLink("local repo", toFileUrl(localRepoPath)),
   markdownLink("remote repo", remoteRepo),
 ].filter(Boolean);
+const workspaceName = `${projectName || projectSlug} Workspace`;
+const aliases = [...new Set([workspaceName, ...listItems(aliasesInput)])];
 
 await tp.file.rename("workspace");
 await tp.file.move(`${folderPath}/workspace`);
 
 tR += `---
-title: "${yamlEscape(projectName || projectSlug)} Workspace"
 tags:
 ${allTags.map((tag) => `  - ${tag}`).join("\n")}
 kind: "project"
@@ -108,10 +116,10 @@ format: "workspace"
 status: "active"
 project: "${yamlEscape(`[[${projectSlug}]]`)}"
 source:${yamlList(sourceItems)}
-aliases: []
+aliases:${yamlList(aliases)}
 ---
 
-# ${projectName || projectSlug} Workspace
+# ${workspaceName}
 
 > Scope:
 
