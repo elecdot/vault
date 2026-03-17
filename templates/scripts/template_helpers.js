@@ -1,6 +1,6 @@
 module.exports = async function(tp) {
-  const promptValue = async (label, fallback = "") => {
-    const value = await tp.system.prompt(label, fallback);
+  const promptValue = async (label, fallback = "", multiline = false) => {
+    const value = await tp.system.prompt(label, fallback, false, multiline);
     return value ? value.trim() : "";
   };
 
@@ -85,7 +85,22 @@ module.exports = async function(tp) {
     return normalized;
   };
 
+  const chooseValue = async (label, options, fallback) => {
+    const fallbackIndex = Math.max(options.indexOf(fallback), 0);
+    const value = await tp.system.suggester(options, options, false, label, fallbackIndex);
+    return value || fallback || options[0];
+  };
+
   const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+
+  const listItems = (value) => value
+    ? value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+
+  const uniqueItems = (items) => [...new Set(items.filter(Boolean))];
 
   const slugify = (value, fallbackPrefix) => {
     const slug = String(value)
@@ -108,12 +123,16 @@ module.exports = async function(tp) {
       .join("\n");
   };
 
-  const yamlList = (items) => {
+  const renderYamlList = (items, mapper = (item) => `"${yamlEscape(item)}"`) => {
     if (!items.length) {
       return " []";
     }
 
-    return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
+    return `\n${items.map((item) => `  - ${mapper(item)}`).join("\n")}`;
+  };
+
+  const yamlList = (items) => {
+    return renderYamlList(items);
   };
 
   const yamlTags = (items) => {
@@ -224,13 +243,17 @@ ${projectYaml}${sourceYaml}aliases:${yamlList(aliases)}
   return {
     beginTemplate,
     bulletLinks,
+    chooseValue,
     collectCommonFields,
     getValidatedSpec,
+    listItems,
     moveNote,
     promptValue,
     renderFrontmatter,
+    renderYamlList,
     requireChoice,
     slugify,
+    uniqueItems,
     yamlEscape,
     yamlList,
     yamlTags,

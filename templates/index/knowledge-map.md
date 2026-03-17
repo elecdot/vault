@@ -1,57 +1,19 @@
 <%*
-const runMode = tp.config.run_mode;
-const targetFile = tp.config.target_file;
-const targetContent = targetFile ? (await app.vault.cachedRead(targetFile)).trim() : "";
-if (runMode !== 0 && targetContent) {
-  new Notice("knowledge-map cannot run into a non-empty note. Use 'Create new note from template' or start from an empty note.");
-  tR += targetContent;
+const h = await tp.user.template_helpers(tp);
+const start = await h.beginTemplate("knowledge-map");
+if (start.blocked) {
+  tR += start.content;
   return;
 }
 
-const promptValue = async (label, fallback = "", multiline = false) => {
-  const value = await tp.system.prompt(label, fallback, false, multiline);
-  return value ? value.trim() : "";
-};
-
-const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-
-const slugify = (value) => {
-  const slug = String(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || `knowledge-map-${tp.date.now("YYYY-MM-DD-HH-mm")}`;
-};
-
-const bulletLinks = (value) => {
-  if (!value) {
-    return "- none";
-  }
-
-  return value
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .map((item) => `- [[${item}]]`)
-    .join("\n");
-};
-
-const yamlList = (items) => {
-  if (!items.length) {
-    return " []";
-  }
-
-  return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
-};
-
-const canonicalNameInput = await promptValue("Canonical name / domain");
+const canonicalNameInput = await h.promptValue("Canonical name / domain");
 const canonicalName = canonicalNameInput || tp.file.title || `knowledge map ${tp.date.now("YYYY-MM-DD HH:mm")}`;
-const scope = await promptValue("Scope", "", true);
-const why = await promptValue("Why does this domain matter?", "", true);
-const startingPoints = await promptValue("Starting points, comma-separated (optional)");
-const distinctions = await promptValue("Key distinctions, one per line (optional)", "", true);
-const tagsInput = await promptValue("Tags, comma-separated (optional)");
-const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
+const scope = await h.promptValue("Scope", "", true);
+const why = await h.promptValue("Why does this domain matter?", "", true);
+const startingPoints = await h.promptValue("Starting points, comma-separated (optional)");
+const distinctions = await h.promptValue("Key distinctions, one per line (optional)", "", true);
+const tagsInput = await h.promptValue("Tags, comma-separated (optional)");
+const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 
 const tags = tagsInput
   ? tagsInput
@@ -59,17 +21,17 @@ const tags = tagsInput
       .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
       .filter(Boolean)
   : [];
-const aliases = [...new Set([canonicalName, ...aliasesInput.split(",").map((item) => item.trim()).filter(Boolean)])];
+const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
 
-const noteSlug = slugify(canonicalName);
+const noteSlug = h.slugify(canonicalName, "knowledge-map");
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/indexes/${noteSlug}`);
 
 tR += `---
-tags:${yamlList(tags)}
+tags:${h.yamlList(tags)}
 kind: "index"
 format: "map"
-aliases:${yamlList(aliases)}
+aliases:${h.yamlList(aliases)}
 ---
 
 # ${canonicalName}
@@ -84,7 +46,7 @@ ${why || "- "}
 ${distinctions ? distinctions.split(/\r?\n/).map((line) => `- ${line}`).join("\n") : "- "}
 
 ## Starting Points
-${bulletLinks(startingPoints)}
+${h.bulletLinks(startingPoints)}
 
 ## Concepts
 ![[bases/knowledge-domain.base#Domain Concepts]]

@@ -1,72 +1,23 @@
 <%*
-const runMode = tp.config.run_mode;
-const targetFile = tp.config.target_file;
-const targetContent = targetFile ? (await app.vault.cachedRead(targetFile)).trim() : "";
-if (runMode !== 0 && targetContent) {
-  new Notice("course-overview cannot run into a non-empty note. Use 'Create new note from template' or start from an empty note.");
-  tR += targetContent;
+const h = await tp.user.template_helpers(tp);
+const start = await h.beginTemplate("course-overview");
+if (start.blocked) {
+  tR += start.content;
   return;
 }
 
-const promptValue = async (label, fallback = "") => {
-  const value = await tp.system.prompt(label, fallback);
-  return value ? value.trim() : "";
-};
-
-const chooseValue = async (label, options, fallback) => {
-  const fallbackIndex = Math.max(options.indexOf(fallback), 0);
-  const value = await tp.system.suggester(options, options, false, label, fallbackIndex);
-  return value || fallback || options[0];
-};
-
-const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-
-const slugify = (value) => {
-  const slug = String(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || `course-${tp.date.now("YYYY-MM-DD-HH-mm")}`;
-};
-
-const bulletLinks = (value) => {
-  if (!value) {
-    return "- none";
-  }
-
-  return value
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .map((item) => `- [[${item}]]`)
-    .join("\n");
-};
-const listItems = (value) => value
-  ? value
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean)
-  : [];
-const yamlList = (items) => {
-  if (!items.length) {
-    return " []";
-  }
-
-  return `\n${items.map((item) => `  - "${yamlEscape(item)}"`).join("\n")}`;
-};
-
-const courseName = await promptValue("Course name");
+const courseName = await h.promptValue("Course name");
 const canonicalName = courseName || `course overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
-const courseSlug = slugify(canonicalName);
-const locationKind = await chooseValue("Store under", ["resources", "projects", "custom"], "resources");
+const courseSlug = h.slugify(canonicalName, "course");
+const locationKind = await h.chooseValue("Store under", ["resources", "projects", "custom"], "resources");
 const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
 const targetFolder = locationKind === "custom"
-  ? await promptValue("Target folder", `resources/${courseSlug}`)
+  ? await h.promptValue("Target folder", `resources/${courseSlug}`)
   : defaultTargetFolder;
-const source = await promptValue("Primary source link or note (optional)");
-const extraTagsInput = await promptValue("Extra tags, comma-separated (optional)");
-const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
-const related = await promptValue("Related note names, comma-separated (optional)");
+const source = await h.promptValue("Primary source link or note (optional)");
+const extraTagsInput = await h.promptValue("Extra tags, comma-separated (optional)");
+const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
+const related = await h.promptValue("Related note names, comma-separated (optional)");
 
 const extraTags = extraTagsInput
   ? extraTagsInput
@@ -77,8 +28,8 @@ const extraTags = extraTagsInput
 
 const allTags = [...new Set(["course", courseSlug, ...extraTags])];
 const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
-const aliases = [...new Set([canonicalName, ...listItems(aliasesInput)])];
-const noteSlug = slugify(canonicalName);
+const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
+const noteSlug = h.slugify(canonicalName, "course");
 
 await tp.file.rename(noteSlug);
 if (targetFolder) {
@@ -91,8 +42,8 @@ ${tagYaml}
 kind: "index"
 format: "overview"
 status: "active"
-source: "${yamlEscape(source)}"
-aliases:${yamlList(aliases)}
+source: "${h.yamlEscape(source)}"
+aliases:${h.yamlList(aliases)}
 ---
 
 # ${canonicalName}
@@ -125,6 +76,6 @@ GROUP BY file.link
 \`\`\`
 
 ## Related
-${bulletLinks(related)}
+${h.bulletLinks(related)}
 `;
 -%>

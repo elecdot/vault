@@ -1,35 +1,10 @@
 <%*
-const runMode = tp.config.run_mode;
-const targetFile = tp.config.target_file;
-const targetContent = targetFile ? (await app.vault.cachedRead(targetFile)).trim() : "";
-if (runMode !== 0 && targetContent) {
-  new Notice("permanent-note cannot run into a non-empty note. Use 'Create new note from template' or start from an empty note.");
-  tR += targetContent;
+const h = await tp.user.template_helpers(tp);
+const start = await h.beginTemplate("permanent-note");
+if (start.blocked) {
+  tR += start.content;
   return;
 }
-
-const promptValue = async (label, fallback = "", multiline = false) => {
-  const value = await tp.system.prompt(label, fallback, false, multiline);
-  return value ? value.trim() : "";
-};
-
-const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-
-const slugify = (value) => {
-  const slug = String(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || `concept-${tp.date.now("YYYY-MM-DD-HH-mm")}`;
-};
-
-const listItems = (value) => value
-  ? value
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean)
-  : [];
-const uniqueItems = (items) => [...new Set(items.filter(Boolean))];
 
 const normalizeIndexLink = (value) => {
   const trimmed = value.trim().replace(/^\[\[|\]\]$/g, "");
@@ -56,33 +31,25 @@ const normalizeIndexLink = (value) => {
   return `[[knowledge/indexes/${trimmed}]]`;
 };
 
-const yamlList = (items, mapper = (item) => item) => {
-  if (!items.length) {
-    return " []";
-  }
+const wikilinkList = (items) => h.renderYamlList(items, (item) => `"${h.yamlEscape(item)}"`);
+const quotedList = (items) => h.renderYamlList(items, (item) => `"${h.yamlEscape(item)}"`);
 
-  return `\n${items.map((item) => `  - ${mapper(item)}`).join("\n")}`;
-};
-
-const wikilinkList = (items) => yamlList(items, (item) => `"${yamlEscape(item)}"`);
-const quotedList = (items) => yamlList(items, (item) => `"${yamlEscape(item)}"`);
-
-const canonicalNameInput = await promptValue("Canonical name");
+const canonicalNameInput = await h.promptValue("Canonical name");
 const canonicalName = canonicalNameInput || tp.file.title || `concept ${tp.date.now("YYYY-MM-DD HH:mm")}`;
-const core = await promptValue("Core statement (2-6 sentences)", "", true);
-const indexesInput = await promptValue("Index notes, comma-separated (optional)", "knowledge/indexes/");
-const parent = await promptValue("Parent note (optional)");
-const related = await promptValue("Related notes, comma-separated (optional)");
-const contrast = await promptValue("Contrast notes, comma-separated (optional)");
-const tagsInput = await promptValue("Tags, comma-separated (optional)");
-const source = await promptValue("Source note or URL (optional)");
-const aliasesInput = await promptValue("Aliases, comma-separated (optional)");
+const core = await h.promptValue("Core statement (2-6 sentences)", "", true);
+const indexesInput = await h.promptValue("Index notes, comma-separated (optional)", "knowledge/indexes/");
+const parent = await h.promptValue("Parent note (optional)");
+const related = await h.promptValue("Related notes, comma-separated (optional)");
+const contrast = await h.promptValue("Contrast notes, comma-separated (optional)");
+const tagsInput = await h.promptValue("Tags, comma-separated (optional)");
+const source = await h.promptValue("Source note or URL (optional)");
+const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 
-const aliases = uniqueItems([canonicalName, ...listItems(aliasesInput)]);
-const tags = listItems(tagsInput).map((tag) => tag.toLowerCase().replace(/\s+/g, "-"));
-const indexNotes = listItems(indexesInput).map(normalizeIndexLink).filter(Boolean);
-const relatedLinks = listItems(related).map((item) => `[[${item}]]`).join(", ");
-const contrastLinks = listItems(contrast).map((item) => `[[${item}]]`).join(", ");
+const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
+const tags = h.listItems(tagsInput).map((tag) => tag.toLowerCase().replace(/\s+/g, "-"));
+const indexNotes = h.listItems(indexesInput).map(normalizeIndexLink).filter(Boolean);
+const relatedLinks = h.listItems(related).map((item) => `[[${item}]]`).join(", ");
+const contrastLinks = h.listItems(contrast).map((item) => `[[${item}]]`).join(", ");
 const parentLink = parent ? `[[${parent}]]` : (indexNotes[0] || "");
 const hasMeaningfulConnection = Boolean(parentLink || relatedLinks || contrastLinks);
 
@@ -91,16 +58,16 @@ if (!hasMeaningfulConnection) {
   return;
 }
 
-const noteSlug = slugify(canonicalName);
+const noteSlug = h.slugify(canonicalName, "concept");
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/${noteSlug}`);
 
 tR += `---
-tags:${yamlList(tags)}
+tags:${h.yamlTags(tags)}
 kind: "concept"
 format: "note"
 aliases:${quotedList(aliases)}
-source: "${yamlEscape(source)}"
+source: "${h.yamlEscape(source)}"
 indexes:${wikilinkList(indexNotes)}
 ---
 
