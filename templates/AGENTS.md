@@ -20,6 +20,8 @@ Default structure:
 templates/
   AGENTS.md
   <general-template>.md
+  scripts/
+    <templater-user-script>.js
   <kind>/
     <template>.md
   <kind>/<format-or-pattern>/
@@ -31,6 +33,7 @@ Rules:
 - Prefer `templates/<kind>/` when a template primarily serves one semantic note kind.
 - The `templates/` root may host general templates that are reused across multiple kinds and do not justify a kind-specific home.
 - Treat the root as the library's general template layer, not as a catch-all for uncategorized files.
+- Store reusable Templater user scripts under `templates/scripts/` when multiple templates share the same helper logic or declarative family spec.
 - Use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one `kind` has multiple stable, high-frequency template families.
 - Keep filenames readable and specific to the note shape they produce, such as `note.md`, `summary.md`, `reference.md`, or `weekly-review.md`.
 - Do not add deeper nesting unless it clearly improves retrieval and template selection.
@@ -62,6 +65,7 @@ Common file types here:
 
 - Markdown templates
 - Templater-powered Markdown templates using documented Templater syntax
+- Reusable Templater user scripts under `templates/scripts/`
 
 Avoid keeping non-template notes here. If you need examples or policy notes, prefer linking to them from a proper note elsewhere.
 
@@ -93,6 +97,9 @@ A template deserves kind-specific placement only when at least one of the follow
 - Use Templater only where prompts, computed values, or stable scaffolding materially reduce repeated work.
 - Prefer small, readable scripts over large embedded programs.
 - Keep JavaScript scoped to note creation rather than broad vault mutation.
+- When several templates share the same helper logic, prefer a reusable user script under `templates/scripts/` over copying the same functions into each template.
+- Keep generic helper scripts semantics-light; when a template family needs shared note semantics, prefer an explicit declarative spec under `templates/scripts/` over helper-held defaults.
+- Keep family spec scripts data-oriented; they should describe one shared contract rather than execute note-creation logic.
 
 Detailed syntax and command rules remain in the `obsidian-template-authoring` skill and its references.
 
@@ -142,4 +149,6 @@ When editing files inside `templates/`:
 - avoid adding prompts or logic that do not materially improve the resulting note
 - keep template code readable for future maintenance
 - do not introduce new taxonomy axes through template frontmatter
+- keep reusable Templater helper scripts under `templates/scripts/` rather than hidden Obsidian-only folders
+- keep family-specific note semantics in explicit specs rather than hidden helper defaults
 - use the `obsidian-template-authoring` skill for Templater syntax, code structure, and validation details

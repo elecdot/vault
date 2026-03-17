@@ -162,6 +162,7 @@ Decision rule:
 
 - Store all templates under `templates/`.
 - The `templates/` root may host general templates reused across multiple kinds with substantially the same note body.
+- Store reusable Templater user scripts under `templates/scripts/` when they support multiple templates.
 - Use `templates/<kind>/` when a template primarily serves one semantic note kind, for example `templates/concept/`, `templates/resource/`, `templates/project/`, or `templates/daily/`.
 - When one `kind` contains multiple high-frequency expression shapes or stable template patterns, refine with a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
 - Do not add deeper nesting unless the additional subdivision clearly improves retrieval and template selection.
