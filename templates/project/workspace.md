@@ -47,13 +47,8 @@ if (!app.vault.getAbstractFileByPath(folderPath)) {
   await app.vault.createFolder(folderPath);
 }
 
-const extraTags = tagsInput
-  ? tagsInput
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
-      .filter(Boolean)
-  : [];
-const allTags = [...new Set(["workspace", ...extraTags])];
+const extraTags = h.normalizeTags(tagsInput);
+const allTags = h.uniqueItems(["workspace", ...extraTags]);
 const sourceItems = [
   markdownLink("local repo", toFileUrl(localRepoPath)),
   markdownLink("remote repo", remoteRepo),
@@ -65,8 +60,7 @@ await tp.file.rename("workspace");
 await tp.file.move(`${folderPath}/workspace`);
 
 tR += `---
-tags:
-${allTags.map((tag) => `  - ${tag}`).join("\n")}
+tags:${h.yamlTags(allTags)}
 kind: "project"
 format: "workspace"
 status: "active"

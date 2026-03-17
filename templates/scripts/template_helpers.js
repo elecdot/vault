@@ -102,6 +102,10 @@ module.exports = async function(tp) {
 
   const uniqueItems = (items) => [...new Set(items.filter(Boolean))];
 
+  const normalizeTags = (value) => uniqueItems(
+    listItems(value).map((tag) => tag.toLowerCase().replace(/\s+/g, "-"))
+  );
+
   const slugify = (value, fallbackPrefix) => {
     const slug = String(value)
       .toLowerCase()
@@ -136,11 +140,7 @@ module.exports = async function(tp) {
   };
 
   const yamlTags = (items) => {
-    if (!items.length) {
-      return " []";
-    }
-
-    return `\n${items.map((item) => `  - ${item}`).join("\n")}`;
+    return renderYamlList(items);
   };
 
   const beginTemplate = async (templateName) => {
@@ -192,12 +192,7 @@ module.exports = async function(tp) {
     const tagsInput = await promptValue("Tags, comma-separated (optional)");
     const related = await promptValue("Related note names, comma-separated (optional)");
 
-    const tags = tagsInput
-      ? tagsInput
-          .split(",")
-          .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
-          .filter(Boolean)
-      : [];
+    const tags = normalizeTags(tagsInput);
 
     return {
       noteKind,
@@ -249,6 +244,7 @@ ${projectYaml}${sourceYaml}aliases:${yamlList(aliases)}
     listItems,
     moveNote,
     promptValue,
+    normalizeTags,
     renderFrontmatter,
     renderYamlList,
     requireChoice,

@@ -19,15 +19,8 @@ const extraTagsInput = await h.promptValue("Extra tags, comma-separated (optiona
 const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 const related = await h.promptValue("Related note names, comma-separated (optional)");
 
-const extraTags = extraTagsInput
-  ? extraTagsInput
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
-      .filter(Boolean)
-  : [];
-
-const allTags = [...new Set(["course", courseSlug, ...extraTags])];
-const tagYaml = allTags.map((tag) => `  - ${tag}`).join("\n");
+const extraTags = h.normalizeTags(extraTagsInput);
+const allTags = h.uniqueItems(["course", courseSlug, ...extraTags]);
 const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
 const noteSlug = h.slugify(canonicalName, "course");
 
@@ -37,8 +30,7 @@ if (targetFolder) {
 }
 
 tR += `---
-tags:
-${tagYaml}
+tags:${h.yamlTags(allTags)}
 kind: "index"
 format: "overview"
 status: "active"

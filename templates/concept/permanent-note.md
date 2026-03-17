@@ -46,7 +46,7 @@ const source = await h.promptValue("Source note or URL (optional)");
 const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 
 const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
-const tags = h.listItems(tagsInput).map((tag) => tag.toLowerCase().replace(/\s+/g, "-"));
+const tags = h.normalizeTags(tagsInput);
 const indexNotes = h.listItems(indexesInput).map(normalizeIndexLink).filter(Boolean);
 const relatedLinks = h.listItems(related).map((item) => `[[${item}]]`).join(", ");
 const contrastLinks = h.listItems(contrast).map((item) => `[[${item}]]`).join(", ");

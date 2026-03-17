@@ -15,12 +15,7 @@ const distinctions = await h.promptValue("Key distinctions, one per line (option
 const tagsInput = await h.promptValue("Tags, comma-separated (optional)");
 const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 
-const tags = tagsInput
-  ? tagsInput
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
-      .filter(Boolean)
-  : [];
+const tags = h.normalizeTags(tagsInput);
 const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
 
 const noteSlug = h.slugify(canonicalName, "knowledge-map");
@@ -28,7 +23,7 @@ await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/indexes/${noteSlug}`);
 
 tR += `---
-tags:${h.yamlList(tags)}
+tags:${h.yamlTags(tags)}
 kind: "index"
 format: "map"
 aliases:${h.yamlList(aliases)}
