@@ -32,7 +32,7 @@ Rules:
 
 - Prefer `templates/<kind>/` when a template primarily serves one semantic note kind.
 - The `templates/` root may host general templates that are reused across multiple kinds and do not justify a kind-specific home.
-- Treat the root as the library's general template layer, not as a catch-all for uncategorized files.
+  - Treat the root as the library's general template layer, not as a catch-all for uncategorized files.
 - Store reusable Templater user scripts under `templates/scripts/` when multiple templates share the same helper logic or declarative family spec.
 - Use a second level such as `templates/<kind>/<format>/` or another descriptive subfolder only when one `kind` has multiple stable, high-frequency template families.
 - Keep filenames readable and specific to the note shape they produce, such as `note.md`, `summary.md`, `reference.md`, or `weekly-review.md`.

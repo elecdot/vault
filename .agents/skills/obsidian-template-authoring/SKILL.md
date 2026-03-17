@@ -11,6 +11,7 @@ Keep the main skill procedural and load references only when needed:
 
 - Read [TEMPLATER.md](./references/TEMPLATER.md) when writing or checking Templater syntax, commands, prompts, or JavaScript execution blocks.
 - Read [EXAMPLES.md](./references/EXAMPLES.md) when the user wants a concrete template pattern or when the workflow shape is still unclear.
+- Treat `TEMPLATER.md` as syntax and command guidance; template placement and library governance still come from the local `templates/AGENTS.md`.
 
 ## Workflow
 

@@ -15,7 +15,9 @@ Use Templater when a note template needs logic, prompts, file-aware behavior, or
 
 ## Foldering Guidance
 
-- Save reusable templates under `templates/<kind>/` by default.
+- Follow the local `templates/AGENTS.md` rules for template placement.
+- The `templates/` root may host general cross-kind templates when they are the library's default entry points.
+- Use `templates/<kind>/` when a template primarily serves one semantic note kind.
 - When one `kind` contains multiple high-frequency expression shapes or stable template patterns, add a second level such as `templates/<kind>/<format>/` or another descriptive subfolder.
 - Keep the folder tree shallow unless repeated use clearly justifies more structure.
 - Use filenames or frontmatter to express the exact note shape when that improves retrieval.
