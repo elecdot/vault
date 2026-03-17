@@ -45,6 +45,7 @@ Keep the main skill procedural and load references only when needed:
 - Prefer documented plugin APIs such as `tp.file`, `tp.date`, `tp.system`, and `tp.frontmatter`.
 - When extracting shared helper logic, prefer a Templater user script under `templates/scripts/` and call it through `tp.user.*` rather than copying the same helpers across templates.
 - Keep generic helper scripts semantics-light; when several templates share one note-family contract, prefer a separate explicit spec script over hidden defaults inside the helper.
+- When one family also shares a creation protocol, prefer a separate family runtime script; keep utility helpers generic and let the runtime execute one explicit spec.
 - Keep family spec scripts data-oriented; they should describe one shared contract rather than execute note-creation logic.
 - Prefer small expressions over large embedded scripts.
 - Keep JavaScript local to note creation needs.

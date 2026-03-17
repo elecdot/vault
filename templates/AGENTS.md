@@ -99,6 +99,7 @@ A template deserves kind-specific placement only when at least one of the follow
 - Keep JavaScript scoped to note creation rather than broad vault mutation.
 - When several templates share the same helper logic, prefer a reusable user script under `templates/scripts/` over copying the same functions into each template.
 - Keep generic helper scripts semantics-light; when a template family needs shared note semantics, prefer an explicit declarative spec under `templates/scripts/` over helper-held defaults.
+- When one family needs a shared creation protocol, prefer a separate family runtime under `templates/scripts/`; utility helpers should stay generic, while runtimes execute one family's spec.
 - Keep family spec scripts data-oriented; they should describe one shared contract rather than execute note-creation logic.
 
 Detailed syntax and command rules remain in the `obsidian-template-authoring` skill and its references.
