@@ -19,7 +19,7 @@ if (!common) {
   return;
 }
 
-const scope = await h.promptValue("What does this summary cover?");
+const summaryTarget = await h.promptValue("What are you summarizing?");
 const homeLink = common.homeNote ? `[[${common.homeNote}]]` : "";
 
 await h.moveNote(common);
@@ -28,17 +28,22 @@ tR += `${runtime.renderFrontmatter({ h, fields: common, format: "summary", spec 
 
 # ${common.canonicalName}
 
-## Scope
-${scope || "Not specified."}
+## In Short
+${summaryTarget || "Not specified."}
 
-## Takeaways
+## Key Points
+- 
+
+## Why It Matters
+
+## Open Questions
 - 
 
 ## Related
 ${homeLink ? `- ${homeLink}` : "- none"}${common.related ? "\n" + h.bulletLinks(common.related) : ""}
 
 ## Next
-- [ ] Distill one key takeaway into a concept, reference, or project note
-- [ ] Link this summary to a related note or next step
+- [ ] Distill one recurring idea into a concept note if it becomes durable
+- [ ] Link this summary to a source, project, or related concept note
 `;
 -%>

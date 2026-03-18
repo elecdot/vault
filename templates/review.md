@@ -19,7 +19,7 @@ if (!common) {
   return;
 }
 
-const task = await h.promptValue("Prompt or task summary");
+const reviewTarget = await h.promptValue("What are you reviewing?");
 const homeLink = common.homeNote ? `[[${common.homeNote}]]` : "";
 
 await h.moveNote(common);
@@ -28,20 +28,24 @@ tR += `${runtime.renderFrontmatter({ h, fields: common, format: "review", spec }
 
 # ${common.canonicalName}
 
-## Task
+## What I Reviewed
 
-${task || "Not specified."}
+${reviewTarget || "Not specified."}
 
-## Approach
+## What Stood Out
 
-## Takeaways
+- 
+
+## Assessment
+
+## Changes
 - 
 
 ## Related
 ${homeLink ? `- ${homeLink}` : "- none"}${common.related ? "\n" + h.bulletLinks(common.related) : ""}
 
 ## Next
-- [ ] Distill one key lesson into a summary, concept, or project note
-- [ ] Link this review to a related note or follow-up action
+- [ ] Distill one durable lesson into a concept, process, or project note
+- [ ] Link this review to the note, area, or project it should inform
 `;
 -%>
