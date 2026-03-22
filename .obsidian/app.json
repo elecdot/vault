@@ -22,5 +22,6 @@
   "spellcheck": true,
   "readableLineLength": true,
   "foldHeading": true,
-  "foldIndent": true
+  "foldIndent": true,
+  "strictLineBreaks": false
 }
