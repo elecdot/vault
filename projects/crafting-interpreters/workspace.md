@@ -1,21 +1,21 @@
 ---
 tags:
-  - "workspace"
-  - "java"
-  - "c"
-  - "lox"
-  - "compile"
-  - "interpreter"
-kind: "project"
-format: "workspace"
-status: "active"
+  - workspace
+  - java
+  - c
+  - lox
+  - compile
+  - interpreter
+kind: project
+format: workspace
+status: active
 project: "[[crafting-interpreters]]"
 source:
   - "[local repo](file://wsl.localhost/Ubuntu/home/elecdot/dev/labs/crafting-interpreters)"
   - "[remote repo](https://github.com/elecdot/crafting-interpreters)"
 aliases:
-  - "Crafting Interpreters Workspace"
-  - "Lox"
+  - Crafting Interpreters Workspace
+  - Lox
 ---
 
 # Crafting Interpreters Workspace

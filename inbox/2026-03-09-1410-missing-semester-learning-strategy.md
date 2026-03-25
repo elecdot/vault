@@ -4,13 +4,12 @@ tags:
   - chatgpt
   - missing-semester
   - shell
-  - cli
 kind: resource
 format: capture
 status: fleeting
 source: ChatGPT
 aliases:
-  - "missing-semester-learning-strategy"
+  - missing-semester-learning-strategy
 ---
 
 # missing-semester-learning-strategy

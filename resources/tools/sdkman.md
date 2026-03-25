@@ -1,14 +1,14 @@
 ---
 tags:
-  - "java"
-  - "env"
-  - "cli"
-  - "tool"
-kind: "resource"
-format: "note"
+  - java
+  - environment
+  - tooling
+  - shell
+kind: resource
+format: note
 source: "[Offical Docs](https://sdkman.io/usage/)"
 aliases:
-  - "SDKMAN!"
+  - SDKMAN!
 ---
 
 # SDKMAN!

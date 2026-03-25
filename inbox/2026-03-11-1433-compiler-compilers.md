@@ -2,15 +2,15 @@
 tags:
   - inspiration
   - chatgpt
-  - compiler
+  - compile
   - interpreter
-  - tool
-kind: "resource"
-format: "capture"
-status: "fleeting"
-source: "ChatGPT"
+  - tooling
+kind: resource
+format: capture
+status: fleeting
+source: ChatGPT
 aliases:
-  - "Compiler-Compilers"
+  - Compiler-Compilers
 ---
 
 # Compiler-Compilers
