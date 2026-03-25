@@ -22,12 +22,12 @@ const noteSlug = h.slugify(canonicalName, "knowledge-map");
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/indexes/${noteSlug}`);
 
-tR += `---
-tags:${h.yamlTags(tags)}
-kind: "index"
-format: "map"
-aliases:${h.yamlList(aliases)}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: tags, list: true, always: true },
+  { key: "kind", value: "index" },
+  { key: "format", value: "map" },
+  { key: "aliases", value: aliases, list: true },
+])}
 
 # ${canonicalName}
 

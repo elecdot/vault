@@ -100,13 +100,13 @@ module.exports = async function(tp) {
     return addDays(weekOneStart, (isoWeek - 1) * 7);
   };
 
-  const renderFrontmatter = (format) => {
-    return `---
-tags: []
-kind: "daily"
-format: "${format}"
-aliases: []
----`;
+  const renderFrontmatter = (h, format) => {
+    return h.yamlFrontmatter([
+      { key: "tags", value: [], list: true, always: true },
+      { key: "kind", value: "daily" },
+      { key: "format", value: format },
+      { key: "aliases", value: [], list: true, always: true },
+    ]);
   };
 
   const ensureFolder = async (path) => {

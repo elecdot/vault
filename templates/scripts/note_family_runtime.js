@@ -131,18 +131,21 @@ module.exports = async function(tp) {
     const includeProjectKinds = frontmatterConfig.includeProjectFromHomeNoteKinds || [];
     const includeSource = frontmatterConfig.includeSource !== false;
     const { noteKind, homeNote, source, aliases, tags } = fields;
+    const projectValue = includeProjectKinds.includes(noteKind) && homeNote ? `[[${homeNote}]]` : "";
+    const frontmatterFields = [
+      { key: "tags", value: tags, list: true, always: true },
+      { key: "kind", value: noteKind },
+      { key: "format", value: format },
+      { key: "project", value: projectValue },
+    ];
 
-    const projectYaml = includeProjectKinds.includes(noteKind) && homeNote
-      ? `project: "${h.yamlEscape(`[[${homeNote}]]`)}"\n`
-      : "";
-    const sourceYaml = includeSource ? `source: "${h.yamlEscape(source)}"\n` : "";
+    if (includeSource && source) {
+      frontmatterFields.push({ key: "source", value: source });
+    }
 
-    return `---
-tags:${h.yamlTags(tags)}
-kind: "${noteKind}"
-format: "${format}"
-${projectYaml}${sourceYaml}aliases:${h.yamlList(aliases)}
----`;
+    frontmatterFields.push({ key: "aliases", value: aliases, list: true });
+
+    return h.yamlFrontmatter(frontmatterFields);
   };
 
   return {

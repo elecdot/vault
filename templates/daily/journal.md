@@ -10,7 +10,7 @@ if (start.blocked) {
 const info = daily.resolveDaily();
 await daily.moveToDailyYear(info.fileName, info.year);
 
-tR += `${daily.renderFrontmatter("journal")}
+tR += `${daily.renderFrontmatter(h, "journal")}
 
 # ${info.fileName}
 

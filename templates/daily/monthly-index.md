@@ -12,7 +12,7 @@ await daily.moveToDailyYear(info.fileName, info.year);
 
 const weekLinks = info.weekTitles.map((item) => `- [[${item}]]`).join("\n");
 
-tR += `${daily.renderFrontmatter("index")}
+tR += `${daily.renderFrontmatter(h, "index")}
 
 # ${info.fileName}
 

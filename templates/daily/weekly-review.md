@@ -13,7 +13,7 @@ await daily.moveToDailyYear(info.fileName, info.year);
 const monthLinks = info.monthLinks.map((item) => `- [[${item}]]`).join("\n");
 const dailyLinks = info.dailyLinks.map((item) => `- [[${item}]]`).join("\n");
 
-tR += `${daily.renderFrontmatter("review")}
+tR += `${daily.renderFrontmatter(h, "review")}
 
 # ${info.fileName}
 

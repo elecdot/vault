@@ -14,14 +14,14 @@ const allTags = h.uniqueItems(["concept", ...extraTags]);
 const relatedBlock = h.bulletLinks(related);
 const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
 
-tR += `---
-tags:${h.yamlTags(allTags)}
-kind: "concept"
-format: "card"
-status: "fleeting"
-source: "${h.yamlEscape(source)}"
-aliases:${h.yamlList(aliases)}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: allTags, list: true, always: true },
+  { key: "kind", value: "concept" },
+  { key: "format", value: "card" },
+  { key: "status", value: "fleeting" },
+  { key: "source", value: source },
+  { key: "aliases", value: aliases, list: true },
+])}
 
 # ${canonicalName}
 

@@ -92,12 +92,12 @@ templates/    # 模板文件夹
 
 ```yaml
 ---
-title: ""
+title: 
 tags: []
-kind: ""        # concept / resource / project / area / person / meeting / daily / index, etc.
-format: ""      # note / outline / checklist / summary / reference / journal / template, etc.
-status: ""      # fleeting / active / paused / done / archived（可选）
-area: ""        # 领域 / 责任区（可选）
+kind:           # concept / resource / project / area / person / meeting / daily / index, etc.
+format:         # note / outline / checklist / summary / reference / journal / template, etc.
+status:         # fleeting / active / paused / done / archived（可选）
+area:           # 领域 / 责任区（可选）
 project: ""     # 相关项目（可选；推荐使用链接或保持字符串一致）
 source: ""      # 来源（书 / 文章 / 视频 / 对话等；可选）
 aliases: []     # 笔记别名：更友好的显示名与检索入口（可选）

@@ -40,15 +40,14 @@ const relatedBlock = related
 
 await tp.file.move(`inbox/${filename}`);
 
-tR += `---
-tags:${h.yamlTags(allTags)}
-kind: "resource"
-format: "capture"
-status: "fleeting"
-source: "ChatGPT"
-aliases:
-${aliases.map((alias) => `  - "${h.yamlEscape(alias)}"`).join("\n")}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: allTags, list: true, always: true },
+  { key: "kind", value: "resource" },
+  { key: "format", value: "capture" },
+  { key: "status", value: "fleeting" },
+  { key: "source", value: "ChatGPT" },
+  { key: "aliases", value: aliases, list: true },
+])}
 
 # ${canonicalName}
 

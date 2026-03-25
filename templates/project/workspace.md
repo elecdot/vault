@@ -59,15 +59,15 @@ const aliases = h.uniqueItems([workspaceName, ...h.listItems(aliasesInput)]);
 await tp.file.rename("workspace");
 await tp.file.move(`${folderPath}/workspace`);
 
-tR += `---
-tags:${h.yamlTags(allTags)}
-kind: "project"
-format: "workspace"
-status: "active"
-project: "${h.yamlEscape(`[[${projectSlug}]]`)}"
-source:${h.yamlList(sourceItems)}
-aliases:${h.yamlList(aliases)}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: allTags, list: true, always: true },
+  { key: "kind", value: "project" },
+  { key: "format", value: "workspace" },
+  { key: "status", value: "active" },
+  { key: "project", value: `[[${projectSlug}]]` },
+  { key: "source", value: sourceItems, list: true },
+  { key: "aliases", value: aliases, list: true },
+])}
 
 # ${workspaceName}
 

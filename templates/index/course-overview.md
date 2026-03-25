@@ -29,14 +29,14 @@ if (targetFolder) {
   await tp.file.move(`${targetFolder}/${noteSlug}`);
 }
 
-tR += `---
-tags:${h.yamlTags(allTags)}
-kind: "index"
-format: "overview"
-status: "active"
-source: "${h.yamlEscape(source)}"
-aliases:${h.yamlList(aliases)}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: allTags, list: true, always: true },
+  { key: "kind", value: "index" },
+  { key: "format", value: "overview" },
+  { key: "status", value: "active" },
+  { key: "source", value: source },
+  { key: "aliases", value: aliases, list: true },
+])}
 
 # ${canonicalName}
 

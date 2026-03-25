@@ -31,9 +31,6 @@ const normalizeIndexLink = (value) => {
   return `[[knowledge/indexes/${trimmed}]]`;
 };
 
-const wikilinkList = (items) => h.renderYamlList(items, (item) => `"${h.yamlEscape(item)}"`);
-const quotedList = (items) => h.renderYamlList(items, (item) => `"${h.yamlEscape(item)}"`);
-
 const canonicalNameInput = await h.promptValue("Canonical name");
 const canonicalName = canonicalNameInput || tp.file.title || `concept ${tp.date.now("YYYY-MM-DD HH:mm")}`;
 const core = await h.promptValue("Core statement (2-6 sentences)", "", true);
@@ -62,14 +59,14 @@ const noteSlug = h.slugify(canonicalName, "concept");
 await tp.file.rename(noteSlug);
 await tp.file.move(`knowledge/${noteSlug}`);
 
-tR += `---
-tags:${h.yamlTags(tags)}
-kind: "concept"
-format: "note"
-aliases:${quotedList(aliases)}
-source: "${h.yamlEscape(source)}"
-indexes:${wikilinkList(indexNotes)}
----
+tR += `${h.yamlFrontmatter([
+  { key: "tags", value: tags, list: true, always: true },
+  { key: "kind", value: "concept" },
+  { key: "format", value: "note" },
+  { key: "aliases", value: aliases, list: true },
+  { key: "source", value: source },
+  { key: "indexes", value: indexNotes, list: true },
+])}
 
 # ${canonicalName}
 

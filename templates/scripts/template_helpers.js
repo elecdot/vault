@@ -23,6 +23,67 @@ module.exports = async function(tp) {
 
   const yamlEscape = (value) => String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 
+  // Decision: this helper targets the vault's current template inputs, which are
+  // intentionally kept to controlled single-line metadata. We quote common
+  // Obsidian/YAML-sensitive cases to reduce normalize noise, but we do not try to
+  // fully support every edge-case scalar form here. If future templates start
+  // accepting arbitrary text, leading reserved indicators (for example "@" or
+  // backticks) or multiline frontmatter values should be handled explicitly
+  // instead of relying on this lightweight path.
+  const yamlNeedsQuotes = (value) => {
+    const text = String(value);
+    if (text === "") {
+      return true;
+    }
+
+    if (text.trim() !== text) {
+      return true;
+    }
+
+    if (/[\[\]{}#,&*?|>%!]/.test(text)) {
+      return true;
+    }
+
+    if (text.includes(":")) {
+      return true;
+    }
+
+    if (/^[-?:](?:\s|$)/.test(text)) {
+      return true;
+    }
+
+    if (/\[\[[^\]]+\]\]/.test(text)) {
+      return true;
+    }
+
+    if (/\[[^\]]+\]\([^)]+\)/.test(text)) {
+      return true;
+    }
+
+    if (/^[a-z]+:\/\//i.test(text) || /^file:\/\//i.test(text)) {
+      return true;
+    }
+
+    if (/^(?:true|false|yes|no|on|off|null|~)$/i.test(text)) {
+      return true;
+    }
+
+    if (/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(text)) {
+      return true;
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}(?:[ tT]\d{2}:\d{2}(?::\d{2})?)?$/.test(text)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const yamlScalar = (value) => {
+    const text = String(value);
+    return yamlNeedsQuotes(text) ? `"${yamlEscape(text)}"` : text;
+  };
+
   const listItems = (value) => value
     ? value
         .split(",")
@@ -57,20 +118,57 @@ module.exports = async function(tp) {
       .join("\n");
   };
 
-  const renderYamlList = (items, mapper = (item) => `"${yamlEscape(item)}"`) => {
+  const renderYamlList = (items, options = {}) => {
+    const { always = false } = options;
     if (!items.length) {
-      return " []";
+      return always ? " []" : "";
     }
 
-    return `\n${items.map((item) => `  - ${mapper(item)}`).join("\n")}`;
+    return `\n${items.map((item) => `  - ${yamlScalar(item)}`).join("\n")}`;
   };
 
-  const yamlList = (items) => {
-    return renderYamlList(items);
+  const yamlList = (items, options = {}) => {
+    return renderYamlList(items, options);
   };
 
-  const yamlTags = (items) => {
-    return renderYamlList(items);
+  const yamlTags = (items, options = {}) => {
+    return renderYamlList(items, { always: true, ...options });
+  };
+
+  const yamlField = (key, value, options = {}) => {
+    const {
+      always = false,
+      list = false,
+    } = options;
+
+    if (list) {
+      const items = Array.isArray(value) ? uniqueItems(value.map((item) => String(item)).filter(Boolean)) : [];
+      const rendered = renderYamlList(items, { always });
+      if (!rendered && !always) {
+        return "";
+      }
+
+      return `${key}:${rendered || " []"}`;
+    }
+
+    if (value == null) {
+      return always ? `${key}: ""` : "";
+    }
+
+    const text = String(value);
+    if (!text && !always) {
+      return "";
+    }
+
+    return `${key}: ${yamlScalar(text)}`;
+  };
+
+  const yamlFrontmatter = (fields) => {
+    const lines = fields
+      .map((field) => yamlField(field.key, field.value, field))
+      .filter(Boolean);
+
+    return `---\n${lines.join("\n")}\n---`;
   };
 
   const beginTemplate = async (templateName) => {
@@ -105,7 +203,11 @@ module.exports = async function(tp) {
     slugify,
     uniqueItems,
     yamlEscape,
+    yamlField,
+    yamlFrontmatter,
     yamlList,
+    yamlNeedsQuotes,
+    yamlScalar,
     yamlTags,
   };
 };
