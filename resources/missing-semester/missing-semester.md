@@ -8,7 +8,7 @@ tags:
   - general
 kind: index
 format: overview
-status: active
+status: paused
 source:
   - "[Web Page](https://missing.csail.mit.edu/)"
   - "[local exercise repo](file:///home/elecdot/dev/labs/missing-semester)"
