@@ -300,6 +300,7 @@ Recommended values:
 - `resources`
 - `knowledge`
 - `archive`
+- `daily`
 
 ### Zettelkasten Objects
 
