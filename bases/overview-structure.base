@@ -4,7 +4,7 @@ filters:
     - file.path != this.path
     - file.hasLink(this)
 formulas:
-  note_type: if(format == "overview", "Overview", if(format == "summary", "Summary", if(format == "review", "Exercise", if(format == "note", "Lecture", "Other"))))
+  note_type: if(format == "overview", "Overview", if(format == "summary", "Summary", if(format == "review", "Review", if(format == "note", "Note", "Other"))))
   days_since_update: (now() - file.mtime).days.round(0)
   total_links: file.links.length + file.backlinks.length
   missing_links_count: file.links.filter(!value.asFile().isTruthy()).length

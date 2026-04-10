@@ -1,18 +1,18 @@
 <%*
 const h = await tp.user.template_helpers(tp);
-const start = await h.beginTemplate("course-overview");
+const start = await h.beginTemplate("overview");
 if (start.blocked) {
   tR += start.content;
   return;
 }
 
-const courseName = await h.promptValue("Course name");
-const canonicalName = courseName || `course overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
-const courseSlug = h.slugify(canonicalName, "course");
+const contextName = await h.promptValue("Context name");
+const canonicalName = contextName || `overview ${tp.date.now("YYYY-MM-DD HH:mm")}`;
+const contextSlug = h.slugify(canonicalName, "overview");
 const locationKind = await h.chooseValue("Store under", ["resources", "projects", "custom"], "resources");
-const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${courseSlug}`;
+const defaultTargetFolder = `${locationKind === "projects" ? "projects" : "resources"}/${contextSlug}`;
 const targetFolder = locationKind === "custom"
-  ? await h.promptValue("Target folder", `resources/${courseSlug}`)
+  ? await h.promptValue("Target folder", `resources/${contextSlug}`)
   : defaultTargetFolder;
 const source = await h.promptValue("Primary source link or note (optional)");
 const extraTagsInput = await h.promptValue("Extra tags, comma-separated (optional)");
@@ -20,14 +20,11 @@ const aliasesInput = await h.promptValue("Aliases, comma-separated (optional)");
 const related = await h.promptValue("Related note names, comma-separated (optional)");
 
 const extraTags = h.normalizeTags(extraTagsInput);
-const allTags = h.uniqueItems(["course", courseSlug, ...extraTags]);
+const allTags = h.uniqueItems(extraTags);
 const aliases = h.uniqueItems([canonicalName, ...h.listItems(aliasesInput)]);
-const noteSlug = h.slugify(canonicalName, "course");
+const noteSlug = h.slugify(canonicalName, "overview");
 
-await tp.file.rename(noteSlug);
-if (targetFolder) {
-  await tp.file.move(`${targetFolder}/${noteSlug}`);
-}
+await h.moveNote({ noteSlug, targetFolder });
 
 tR += `${h.yamlFrontmatter([
   { key: "tags", value: allTags, list: true, always: true },
@@ -40,7 +37,7 @@ tR += `${h.yamlFrontmatter([
 
 # ${canonicalName}
 
->An entry point for the course, its notes, and its related study material.
+>An entry point for this context, its notes, and its related working material.
 
 ## Overview
 - 
@@ -53,7 +50,7 @@ tR += `${h.yamlFrontmatter([
 
 >Notes that link back to this overview will appear here.
 
-![[bases/course-structure.base#Linked Notes]]
+![[bases/overview-structure.base#Linked Notes]]
 
 ## Open Loops
 

@@ -1,7 +1,5 @@
 ---
 tags:
-  - course
-  - missing-semester
   - shell
   - environment
   - tooling
@@ -18,11 +16,11 @@ aliases:
 
 # Missing Semester
 
->An entry point for the course, its notes, and its related study material.
+>An entry point for this context, its notes, and its related working material.
 
 ## Overview
 
-- [ ] Since its a general topic course, Each 1-hours lectures centering on a [particular topic](https://missing.csail.mit.edu/2026/). I will file this overview after finish the course
+- [ ] Since this is a general-topic learning track, each lecture centers on a [particular topic](https://missing.csail.mit.edu/2026/). I will file this overview after finishing the context.
 
 ## Scope
 
@@ -40,7 +38,7 @@ aliases:
 
 >Notes that link back to this overview will appear here.
 
-![[bases/course-structure.base#Linked Notes]]
+![[bases/overview-structure.base#Linked Notes]]
 
 ## Open Loops
 
