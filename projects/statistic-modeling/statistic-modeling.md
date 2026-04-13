@@ -5,6 +5,7 @@ tags:
   - enterprise
 kind: index
 format: overview
+project: "[[statistic-modeling]]"
 status: active
 source: 
   - "[Contest Webpage](http://tjjmds.ai-learning.net/)"
