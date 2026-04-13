@@ -10,7 +10,12 @@ if (start.blocked) {
 const info = daily.resolveDaily();
 await daily.moveToDailyYear(info.fileName, info.year);
 
-tR += `${daily.renderFrontmatter(h, "journal")}
+const moodTag = await h.chooseValue("How is your mood today?", ["mood-light", "mood-steady", "mood-heavy"], "mood-steady");
+const workTag = await h.chooseValue("How is your work today?", ["work-flowing", "work-steady", "work-stuck", "work-paused"], "work-steady");
+const tags = h.uniqueItems([moodTag, workTag]);
+const aliases = [`Daily ${info.fileName}`];
+
+tR += `${daily.renderFrontmatter(h, "journal", { tags, aliases })}
 
 # ${info.fileName}
 

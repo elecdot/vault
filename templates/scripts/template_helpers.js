@@ -16,8 +16,7 @@ module.exports = async function(tp) {
   };
 
   const chooseValue = async (label, options, fallback) => {
-    const fallbackIndex = Math.max(options.indexOf(fallback), 0);
-    const value = await tp.system.suggester(options, options, false, label, fallbackIndex);
+    const value = await tp.system.suggester(options, options, false, label);
     return value || fallback || options[0];
   };
 

@@ -11,8 +11,9 @@ const info = daily.resolveMonthly();
 await daily.moveToDailyYear(info.fileName, info.year);
 
 const weekLinks = info.weekTitles.map((item) => `- [[${item}]]`).join("\n");
+const aliases = [`Monthly Index ${info.fileName}`];
 
-tR += `${daily.renderFrontmatter(h, "index")}
+tR += `${daily.renderFrontmatter(h, "index", { aliases })}
 
 # ${info.fileName}
 

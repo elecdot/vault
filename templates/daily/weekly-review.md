@@ -12,8 +12,9 @@ await daily.moveToDailyYear(info.fileName, info.year);
 
 const monthLinks = info.monthLinks.map((item) => `- [[${item}]]`).join("\n");
 const dailyLinks = info.dailyLinks.map((item) => `- [[${item}]]`).join("\n");
+const aliases = [`Weekly Review ${info.fileName}`];
 
-tR += `${daily.renderFrontmatter(h, "review")}
+tR += `${daily.renderFrontmatter(h, "review", { aliases })}
 
 # ${info.fileName}
 
