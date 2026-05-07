@@ -43,7 +43,12 @@ Record the process and open loops of joining the Party. []
 ||总学时：40学时|
 
 ## Related
+
 - [[party-membership]]
+**Retained materials**:
+- [[北京工业大学党校学生入党积极分子培训班学习申请表-23070207-高子涵.doc]]
+- [[附件2：推优记录表(1).docx]]
+- [[入党申请书3.docx]]
 
 ## Open Loops
 - [ ] 积极分子党校学习 (end at 2026-6-30)
