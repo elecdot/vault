@@ -31,11 +31,20 @@ aliases:
 
 ### Milestones
 
-- [x] Initialized the whole repo including: `docs/` and `src/,stata/` placeholders; general research flow declaration; simple smoke test; agent initialize.
+- [x] Initialized the whole repo including: `docs/` and `src/` placeholders
+- [x] Day-1 setup to take a quick understanding about what we are going to do. (See Open Loops in README.md)
 
 ### Current Focus
 
-- [ ] Day-1 setup to take a quick understanding about what we are going to do. (See Open Loops in README.md)
+- [ ] Crawl policies for policy-level research.
+
+可以把当前工作写成一个自然的方法演进：
+
+1. 首先基于手工收集数据构造政策强度；
+2. 使用透明词典做探索性文本测度；
+3. 发现全文词典显著提高召回，但存在高覆盖词和类别饱和；
+4. 因此不直接用词典命中作为最终政策工具分类；
+5. 转而使用词典辅助分层抽样，并结合大模型银标与 MacBERT 多标签分类，构造更稳健的政策工具概率指标。
 
 ## Notes
 
