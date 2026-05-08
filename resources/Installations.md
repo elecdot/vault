@@ -101,29 +101,53 @@ looks like:
 
 -
 
-## list
+## List:
 
 | Package Name | Date | Version | State | Note |
 | ------------ | ---- | ------- | ----- | ---- |
 |              |      |         |       |      |
 
 ```powershell
-# 2026-03-25
+#2026-05-08
 ❯ scoop list
 Installed apps:
 
-Name      Version  Source Updated             Info
-----      -------  ------ -------             ----
-7zip      26.00    main   2026-03-05 12:14:32
-git       2.53.0.2 main   2026-03-14 17:43:16
-grep      3.11     main   2026-03-10 11:02:15
-openjdk17 17.0.2-8 java   2026-03-23 14:45:53
-putty     0.83     extras 2026-03-24 14:28:11
-starship  1.24.2   main   2026-03-05 14:14:30
-tlrc      1.12.0   main   2026-03-25 15:45:08
-vim       9.2.0125 main   2026-03-14 17:43:45
-zoxide    0.9.9    main   2026-03-25 14:33:36
+Name         Version       Source Updated             Info
+----         -------       ------ -------             ----
+7zip         26.01         main   2026-05-06 18:20:56
+codex        0.128.0       main   2026-05-06 18:21:22
+git          2.54.0        main   2026-04-23 14:19:22
+grep         3.11          main   2026-03-10 11:02:15
+innounp      2.67.9        main   2026-05-06 18:21:24
+iverilog     12-20220611   main   2026-04-28 14:53:00
+miniforge3   26.3.2-0      extras 2026-05-08 12:24:52
+openjdk17    17.0.2-8      java   2026-03-23 14:45:53
+putty        0.83          extras 2026-03-24 14:28:11
+ripgrep      15.1.0        main   2026-04-08 08:14:17
+starship     1.25.1        main   2026-05-06 18:21:27
+tlrc         1.13.0        main   2026-04-23 14:19:34
+vcredist2022 14.50.35719.0 extras 2026-04-08 08:31:56
+vim          9.2.0390      main   2026-05-06 18:21:35
+zoxide       0.9.9         main   2026-03-25 14:33:36
 ```
+
+# uv tool
+
+## Usage
+
+```bash
+uv tool install [--python] 3.10 ruff
+uv tool upgrade
+uv tool list
+```
+
+For more detail, check [[uv]].
+
+## List:
+
+| Package Name | Date       | Version | State | Note                                                                        |
+| ------------ | ---------- | ------- | ----- | --------------------------------------------------------------------------- |
+| [[aider]]    | 2026-05-08 | 0.86.2  | alive | ` uv tool install --force --python python3.12 --with pip aider-chat@latest` |
 
 # Related
 - [[tools]]
