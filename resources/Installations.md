@@ -70,15 +70,16 @@ sudo apt install build-essential
 ## Usage
 Search If a package is available on [Homebrew Formula](https://formulae.brew.sh)
 ## List:
-| Package Name  | Date       | Version         | State | Note                                                                                                                                         |
-| ------------- | ---------- | --------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| [[starship]]  | unknown    | 1.24.2          | alive |                                                                                                                                              |
-| [[codex]]     | 2025-09-05 | (casks) 0.107.0 | alive | [official webpage](https://developers.openai.com/codex/cli)                                                                                  |
-| [[fastfetch]] | 2025-10-06 | 2.59.0          | alive | [GitHub repo](https://github.com/fastfetch-cli/fastfetch)                                                                                    |
-| [[ripgrep]]   | 2025-11-19 | 15.1.0          | alive | come with codex                                                                                                                              |
-| [[tldr]]      | 2026-03-09 | 1.6.1           | alive | This is Rust clint for `tldr` see [tldr GitHub page](https://github.com/tldr-pages/tldr)                                                     |
-| [[zoxide]]    | 2026-03-25 | 0.9.9           | alive | Using `zoxide` and retire `autojump` on Linux.                                                                                               |
-| [[just]]      | 2026-04-08 | 1.49.0          | alive | [GitHub repo](https://github.com/casey/just); First used in [[statistic-modeling/workspace]] and alternative way to build might be [[cargo]] | 
+| Package Name  | Date       | Version         | State | Note                                                                                                                                                                                                                                                                                         |
+| ------------- | ---------- | --------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [[starship]]  | unknown    | 1.24.2          | alive |                                                                                                                                                                                                                                                                                              |
+| [[codex]]     | 2025-09-05 | (casks) 0.107.0 | alive | [official webpage](https://developers.openai.com/codex/cli)                                                                                                                                                                                                                                  |
+| [[fastfetch]] | 2025-10-06 | 2.59.0          | alive | [GitHub repo](https://github.com/fastfetch-cli/fastfetch)                                                                                                                                                                                                                                    |
+| [[ripgrep]]   | 2025-11-19 | 15.1.0          | alive | come with codex                                                                                                                                                                                                                                                                              |
+| [[tldr]]      | 2026-03-09 | 1.6.1           | alive | This is Rust clint for `tldr` see [tldr GitHub page](https://github.com/tldr-pages/tldr)                                                                                                                                                                                                     |
+| [[zoxide]]    | 2026-03-25 | 0.9.9           | alive | Using `zoxide` and retire `autojump` on Linux.                                                                                                                                                                                                                                               |
+| [[just]]      | 2026-04-08 | 1.49.0          | alive | [GitHub repo](https://github.com/casey/just); First used in [[statistic-modeling/workspace]] and alternative way to build might be [[cargo]]                                                                                                                                                 |
+| [[chezmoi]]   | 2026-05-09 | 2.70.3          | alive | `chezmoi` is part of [[bootstrap]] workflow who bring the dotfiles when setup. The recommended workflow gonna be install [[brew]] first then introduce `chezmoi`. `chezmoi version v2.70.3, commit ff6317e356645f92976ac8695424735cadbd5a3b, built at 2026-05-07T20:57:19Z, built by Homebrew` | 
 
 # Shell (curl)
 ## Usage
@@ -151,7 +152,7 @@ For more detail, check [[uv]].
 
 # Related
 - [[tools]]
-- [[rebuild]]
+- [[bootstrap]]
 
 # Next
 

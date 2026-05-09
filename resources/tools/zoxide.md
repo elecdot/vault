@@ -47,7 +47,7 @@ z foo<SPACE><TAB>  # show interactive completions (bash 4.4+/fish/zsh only)
 >[!warning] Using `zoxide` and retire `autojump` on Linux.
 
 ## Related
-- [[tools]]
+- [[tooling]]
 - [[missing-semester/10-shell]]
 
 ## Next

@@ -155,7 +155,7 @@ curl -s "https://get.sdkman.io?ci=true&rcupdate=false" | bash
 
 ## Related
 
-- [[tools]]
+- [[tooling]]
 - [[environments-build-guide]]
 
 ## Next
