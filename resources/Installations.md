@@ -53,6 +53,7 @@ apt autoremove
 | [[texlive-full]]    | 2025-12-26 | unknown               | alive   | work with [[VS Code Latex workspace]] |
 | [[7zip]]            | 2026-04-17 | 23.01+dfsg-11         | alive   | `7z` for command alias                |
 | [[unrar]]           | 2026-05-03 | 1:7.0.7-1build1       | alive   |                                       |
+| [[bubblewrap]]      | 2026-05-14 | 0.9.0-1ubuntu0.1      | alive   | requested by [[codex]]                | 
 
 # Linuxbrew
 >[!todo] More information like how `brew` behave is available on [Official Home Page](https://formulae.brew.sh/formula)
