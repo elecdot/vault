@@ -42,18 +42,19 @@ apt autoremove
 ```
 ## List:
 
-| Package Name        | Date       | Version               | State   | Note                                  |
-| ------------------- | ---------- | --------------------- | ------- | ------------------------------------- |
-| [[build-essential]] | -          | -                     | alive   | `Linuxbrew`                           |
-| [[gdb]]             | -          | -                     | alive   | with `build-essential`                |
-| [[autojump]]        | 2025-09-14 | 22.5.1-1.1            | retired | see [[zoxide]]                        |
-| [[tree]]            | 2025-09-14 | v2.1.1                | alive   |                                       |
-| [[unzip]]           | 2025-09-21 | amd64 6.0-28ubuntu4.1 | alive   |                                       |
-| [[zip]]             | 2025-11-23 | 3.0-13ubuntu0.2       | alive   |                                       |
-| [[texlive-full]]    | 2025-12-26 | unknown               | alive   | work with [[VS Code Latex workspace]] |
-| [[7zip]]            | 2026-04-17 | 23.01+dfsg-11         | alive   | `7z` for command alias                |
-| [[unrar]]           | 2026-05-03 | 1:7.0.7-1build1       | alive   |                                       |
-| [[bubblewrap]]      | 2026-05-14 | 0.9.0-1ubuntu0.1      | alive   | requested by [[codex]]                | 
+| Package Name        | Date       | Version               | State   | Note                                                                                                             |
+| ------------------- | ---------- | --------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| [[build-essential]] | -          | -                     | alive   | `Linuxbrew`                                                                                                      |
+| [[gdb]]             | -          | -                     | alive   | with `build-essential`                                                                                           |
+| [[autojump]]        | 2025-09-14 | 22.5.1-1.1            | retired | see [[zoxide]]                                                                                                   |
+| [[tree]]            | 2025-09-14 | v2.1.1                | alive   |                                                                                                                  |
+| [[unzip]]           | 2025-09-21 | amd64 6.0-28ubuntu4.1 | alive   |                                                                                                                  |
+| [[zip]]             | 2025-11-23 | 3.0-13ubuntu0.2       | alive   |                                                                                                                  |
+| [[texlive-full]]    | 2025-12-26 | unknown               | alive   | work with [[VS Code Latex workspace]]                                                                            |
+| [[7zip]]            | 2026-04-17 | 23.01+dfsg-11         | alive   | `7z` for command alias                                                                                           |
+| [[unrar]]           | 2026-05-03 | 1:7.0.7-1build1       | alive   |                                                                                                                  |
+| [[bubblewrap]]      | 2026-05-14 | 0.9.0-1ubuntu0.1      | alive   | requested by [[codex]]                                                                                           |
+| fonts-noto-cjk      | 2026-05-19 | 1:20230817+repack1-3  | alive   | For Chinese figure support (config with `~/.config/matplotlib/matplotlibrc`), maybe align WSL and Windows later. |
 
 # Linuxbrew
 >[!todo] More information like how `brew` behave is available on [Official Home Page](https://formulae.brew.sh/formula)
