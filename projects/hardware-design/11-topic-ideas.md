@@ -1,7 +1,7 @@
 ---
 tags:
   - concept
-  - iic
+  - i2c
   - hardware
 kind: concept
 format: card
